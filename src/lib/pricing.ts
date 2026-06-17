@@ -117,7 +117,7 @@ const PLANS: Plan[] = [
   {
     id: "plan-business", key: "business", name: t("Business", "Doanh nghiệp"), tagline: t("Governed AI across your whole business.", "AI có quản trị cho toàn doanh nghiệp."),
     kind: "subscription", recommended: true, priceModel: "per_user", priceMonthly: 420000, priceYearly: 4200000, priceUnit: t("/user/month", "/người/tháng"), priceNote: t("14-day free trial", "Dùng thử 14 ngày"),
-    ctas: [{ label: t("Start trial", "Dùng thử"), url: "/marketplace", style: "primary" }, { label: t("Contact sales", "Tư vấn"), url: "/enterprise/contribute", style: "secondary" }],
+    ctas: [{ label: t("Start trial", "Dùng thử"), url: "/marketplace", style: "primary" }, { label: t("Contact sales", "Tư vấn"), url: "/#cta-final", style: "secondary" }],
     featureItems: [
       fitem(t("Everything in Team", "Tất cả ở Team"), t("Plus governance and audit.", "Cộng thêm quản trị và kiểm toán.")),
       fitem(t("Scoped permissions", "Phân quyền theo phạm vi"), t("OAuth-style consent on every tool call.", "Đồng ý kiểu OAuth trên mọi lệnh gọi tool.")),
@@ -142,7 +142,7 @@ function mkProgram(key: string, name: T, tagline: T, agents: HighlightGroup["ite
   return {
     id: `plan-${key}`, key, name, tagline, kind: "program", recommended: false,
     priceModel: "contact", priceMonthly: null, priceYearly: null, priceNote: t("Contact for a tailored quote", "Liên hệ để báo giá riêng"),
-    ctas: [{ label: t("Talk to an advisor", "Tư vấn"), url: "/enterprise/contribute", style: "primary" }, { label: t("See details", "Xem chi tiết"), url: `/pricing/${key}`, style: "secondary" }],
+    ctas: [{ label: t("Talk to an advisor", "Tư vấn"), url: "/#cta-final", style: "primary" }, { label: t("See details", "Xem chi tiết"), url: `/pricing/${key}`, style: "secondary" }],
     featureItems: [], featuredAddOnIds: ["addon-support"],
     highlightGroups: [
       { title: t("AI agents included", "Trợ lý ảo được dùng"), items: agents },
@@ -186,7 +186,7 @@ function mkPlatform(key: string, name: T, tagline: T, url: string, priceModel: P
     id: `plan-${key}`, key, name, tagline, kind: "platform", recommended: false,
     priceModel, priceMonthly, priceYearly: priceMonthly == null ? null : priceMonthly * 10, priceUnit: t("/month", "/tháng"), priceNote,
     ctas: priceModel === "contact"
-      ? [{ label: t("Contact us", "Liên hệ"), url: "/enterprise/contribute", style: "primary" }, { label: t("Open platform", "Mở nền tảng"), url, style: "secondary" }]
+      ? [{ label: t("Contact us", "Liên hệ"), url: "/#cta-final", style: "primary" }, { label: t("Open platform", "Mở nền tảng"), url, style: "secondary" }]
       : [{ label: t("Get started", "Bắt đầu"), url, style: "primary" }],
     featureItems: items.map((it) => fitem(it.title, it.description)),
     featuredAddOnIds: [], highlightGroups: [], status: "published", source: "manual",

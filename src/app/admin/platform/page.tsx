@@ -47,7 +47,7 @@ export default function AdminPlatform() {
 function SubmissionsTab() {
   const { tr } = useLang();
   const submissions = useSubmissions();
-  if (submissions.length === 0) return <Empty text={tr(t("No submissions. Add one via /platform/submit.", "Chưa có đề xuất. Thêm qua /platform/submit."))} />;
+  if (submissions.length === 0) return <Empty text={tr(t("No submissions yet.", "Chưa có đề xuất."))} />;
   return (
     <div className="space-y-3">
       {submissions.map((s) => (

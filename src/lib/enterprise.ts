@@ -197,7 +197,7 @@ function mkPage(s: SeedInput): EnterprisePage {
 const CTA_CONTACT: CtaBandData = {
   title: t("Talk to the RAI enterprise team", "Nói chuyện với đội doanh nghiệp RAI"),
   body: t("See how RAI OS fits your stack. Book a working session with a solutions architect.", "Xem RAI OS hợp với hệ thống của bạn ra sao. Đặt buổi làm việc với kiến trúc sư giải pháp."),
-  ctaLabel: t("Contact enterprise sales", "Liên hệ tư vấn doanh nghiệp"), ctaHref: "/enterprise/contribute",
+  ctaLabel: t("Contact enterprise sales", "Liên hệ tư vấn doanh nghiệp"), ctaHref: "/#cta-final",
 };
 
 /* ============================== seed catalog ============================ */

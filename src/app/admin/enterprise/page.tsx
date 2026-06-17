@@ -338,7 +338,7 @@ function VersionsTab() {
 function ContributorsTab() {
   const { tr } = useLang();
   const contributors = useContributors();
-  if (contributors.length === 0) return <div className="border border-border bg-surface p-8 text-center text-[0.92rem] text-text-2">{tr(t("No contributors yet. They appear when the community submits content via /enterprise/contribute.", "Chưa có người đóng góp. Họ xuất hiện khi cộng đồng gửi nội dung qua /enterprise/contribute."))}</div>;
+  if (contributors.length === 0) return <div className="border border-border bg-surface p-8 text-center text-[0.92rem] text-text-2">{tr(t("No contributors yet.", "Chưa có người đóng góp."))}</div>;
   return (
     <div className="overflow-x-auto border border-border">
       <table className="w-full text-left text-[0.88rem]">

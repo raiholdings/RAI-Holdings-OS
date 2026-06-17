@@ -209,7 +209,7 @@ const PAGES: AboutPage[] = [
     blocks: [
       { type: "hero", data: { title: t("Contact us", "Liên hệ"), subhead: t("Questions, partnerships, or joining a program — we'd love to hear from you.", "Câu hỏi, hợp tác, hay tham gia một chương trình — chúng tôi rất mong được nghe từ bạn.") } },
       { type: "contact", data: { email: "thu@phamvanthu.com", phone: "0967 806 686", address: t("Thanh Hóa, Vietnam", "Thanh Hóa, Việt Nam") } },
-      { type: "cta_band", data: { title: t("Talk to the enterprise team", "Trao đổi với đội doanh nghiệp"), ctaLabel: t("Contact enterprise", "Liên hệ doanh nghiệp"), ctaHref: "/enterprise/contribute" } },
+      { type: "cta_band", data: { title: t("Talk to the enterprise team", "Trao đổi với đội doanh nghiệp"), ctaLabel: t("Contact enterprise", "Liên hệ doanh nghiệp"), ctaHref: "/#cta-final" } },
     ],
   },
 ];

@@ -114,7 +114,7 @@ function emptyBlockData(type: BlockType): BlockData {
     case "proof": return { quote: TT("Quote"), author: "Name", role: TT("Role"), logos: [] };
     case "comparison": return { columns: [TT("A"), TT("B")], rows: [{ label: TT("Row"), cells: ["✓", "—"] }] };
     case "faq": return { items: [{ q: TT("Question"), a: TT("Answer") }] };
-    case "cta_band": return { title: TT("Call to action"), body: TT("Body"), ctaLabel: TT("Contact"), ctaHref: "/enterprise/contribute" };
+    case "cta_band": return { title: TT("Call to action"), body: TT("Body"), ctaLabel: TT("Contact"), ctaHref: "/#cta-final" };
   }
 }
 export function addBlock(seed: EnterprisePage, type: BlockType) {

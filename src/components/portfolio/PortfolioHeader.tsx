@@ -22,7 +22,6 @@ export function PortfolioHeader() {
         <div className="mx-auto flex h-16 max-w-[1180px] items-center justify-between gap-4 px-5 sm:px-8">
           <div className="flex items-center gap-4"><Link href="/"><Logo /></Link><span className="mono hidden text-[0.7rem] text-text-2 sm:inline">/ PORTFOLIO</span></div>
           <nav className="flex items-center gap-0.5">
-            <Link href="/admin/portfolio" className={cn("whitespace-nowrap rounded-[var(--radius-md)] px-2.5 py-2 text-[0.84rem] transition-colors", pathname.startsWith("/admin/portfolio") ? "bg-surface text-text" : "text-text-2 hover:text-text")}>{tr(t("Admin", "Quản trị"))}</Link>
             <div className="mono ml-1 flex items-center overflow-hidden rounded-[var(--radius-md)] border border-border text-[0.72rem]">{(["en", "vi"] as const).map((l) => <button key={l} onClick={() => setLang(l)} className={cn("px-2 py-1 uppercase transition-colors", lang === l ? "bg-accent text-white" : "text-text-2 hover:text-text")}>{l}</button>)}</div>
           </nav>
         </div>

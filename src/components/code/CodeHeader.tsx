@@ -14,8 +14,6 @@ export function CodeHeader() {
   useEffect(() => { hydrateStore(); }, []);
   const links = [
     { href: "/code", label: t("Repositories", "Kho mã"), exact: true },
-    { href: "/code/new", label: t("New repo", "Tạo kho mã") },
-    { href: "/code/import", label: t("Import", "Nhập") },
   ];
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur-md">

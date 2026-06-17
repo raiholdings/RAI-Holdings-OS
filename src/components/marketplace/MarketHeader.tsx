@@ -14,8 +14,6 @@ export function MarketHeader() {
   useEffect(() => { hydrateStore(); }, []);
   const links = [
     { href: "/marketplace", label: t("Marketplace", "Marketplace") },
-    { href: "/marketplace/publish", label: t("Publish", "Niêm yết") },
-    { href: "/marketplace/review", label: t("Review", "Duyệt") },
     { href: "/marketplace/billing", label: t("Billing", "Thanh toán") },
   ];
   return (

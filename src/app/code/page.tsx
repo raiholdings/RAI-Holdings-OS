@@ -54,8 +54,6 @@ export default function CodeExplorer() {
           <h1 className="max-w-2xl font-[family-name:var(--font-display)] text-[clamp(1.8rem,4vw,2.8rem)] font-medium leading-[1.06] text-text">{tr(t("Create, reuse & deploy source code", "Tạo, tái sử dụng & triển khai mã nguồn"))}</h1>
           <p className="mt-3 max-w-xl text-[1.02rem] text-text-2">{tr(t("Repositories with SPDX licensing and instant deploy — attach a domain and it runs, all inside RAI OS.", "Kho mã với giấy phép SPDX và triển khai tức thì — gắn tên miền là chạy, ngay trong RAI OS."))}</p>
           <div className="mt-6 flex flex-wrap items-center gap-2">
-            <Link href="/code/new" className="rounded-[var(--radius-md)] bg-accent px-4 py-2.5 text-[0.88rem] font-medium text-white">+ {tr(t("Create repository", "Tạo kho mã"))}</Link>
-            <Link href="/code/import" className="rounded-[var(--radius-md)] border border-border-strong px-4 py-2.5 text-[0.88rem] text-text">{tr(t("Import from community", "Nhập từ cộng đồng"))}</Link>
             <div className="flex flex-1 items-center gap-2 rounded-[var(--radius-md)] border border-border bg-surface px-3"><Icon name="search" size={16} className="text-text-2" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder={tr(t("Search…", "Tìm…"))} className="w-full bg-transparent py-2.5 text-[0.92rem] text-text outline-none placeholder:text-text-2" /></div>
           </div>
         </div>

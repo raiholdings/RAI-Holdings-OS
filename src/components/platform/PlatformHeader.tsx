@@ -9,8 +9,6 @@ import { cn } from "@/lib/cn";
 const links = [
   { href: "/platform", label: t("Catalog", "Catalog"), exact: true },
   { href: "/platform/compare", label: t("Compare", "So sánh") },
-  { href: "/platform/submit", label: t("Add platform", "Thêm nền tảng") },
-  { href: "/admin/platform", label: t("Admin", "Quản trị") },
 ];
 
 export function PlatformHeader() {

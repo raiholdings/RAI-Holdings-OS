@@ -8,8 +8,6 @@ import { cn } from "@/lib/cn";
 
 const links = [
   { href: "/enterprise", label: t("Overview", "Tổng quan"), exact: true },
-  { href: "/enterprise/contribute", label: t("Contribute", "Đóng góp") },
-  { href: "/admin/enterprise", label: t("Admin", "Quản trị") },
 ];
 
 export function EnterpriseHeader() {

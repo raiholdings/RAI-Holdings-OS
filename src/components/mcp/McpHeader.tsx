@@ -11,8 +11,6 @@ export function McpHeader() {
   const pathname = usePathname();
   const links = [
     { href: "/mcp", label: t("Registry", "Registry") },
-    { href: "/mcp/publish", label: t("Publish", "Xuất bản") },
-    { href: "/mcp/sync", label: t("Sync", "Đồng bộ") },
   ];
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur-md">

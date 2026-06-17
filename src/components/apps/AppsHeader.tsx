@@ -15,8 +15,6 @@ export function AppsHeader() {
   const links = [
     { href: "/apps", label: t("Directory", "Thư mục") },
     { href: "/apps/host", label: t("Host", "Host") },
-    { href: "/apps/submit", label: t("Submit", "Nộp app") },
-    { href: "/apps/review", label: t("Review", "Duyệt") },
     { href: "/apps/billing", label: t("Billing", "Billing") },
   ];
   return (

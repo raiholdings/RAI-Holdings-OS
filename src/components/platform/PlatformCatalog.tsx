@@ -104,7 +104,6 @@ export function PlatformCatalog({ seed }: { seed: Platform[] }) {
               <Icon name="search" size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-2" />
               <input value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} placeholder={tr(t("Search platforms…", "Tìm nền tảng…"))} className="w-full rounded-[var(--radius-md)] border border-border bg-bg py-2.5 pl-9 pr-3 text-[0.9rem] text-text outline-none focus:border-border-strong" />
             </div>
-            <Link href="/platform/submit" className={buttonClass("primary")}><Icon name="check" size={15} />{tr(t("Add platform", "Thêm nền tảng"))}</Link>
           </div>
         </div>
       </section>

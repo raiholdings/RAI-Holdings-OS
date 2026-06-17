@@ -59,7 +59,7 @@ export default function EnterpriseHub() {
         <div className={`${WRAP} py-14 text-center`}>
           <h2 className="text-[1.6rem] font-medium tracking-tight text-white">{tr(t("Not sure where to start?", "Chưa biết bắt đầu từ đâu?"))}</h2>
           <p className="mx-auto mt-3 max-w-xl text-[1rem] text-white/80">{tr(t("Tell us about your business and we'll map the right RAI OS path with you.", "Cho chúng tôi biết về doanh nghiệp của bạn, chúng tôi sẽ cùng vạch lối RAI OS phù hợp."))}</p>
-          <div className="mt-7"><Link href="/enterprise/contribute" className={buttonClass("outline", "lg") + " !bg-white !text-fund !border-white"}>{tr(t("Contact enterprise sales", "Liên hệ tư vấn doanh nghiệp"))}<Icon name="arrow-up-right" size={18} /></Link></div>
+          <div className="mt-7"><Link href="/#cta-final" className={buttonClass("outline", "lg") + " !bg-white !text-fund !border-white"}>{tr(t("Contact enterprise sales", "Liên hệ tư vấn doanh nghiệp"))}<Icon name="arrow-up-right" size={18} /></Link></div>
         </div>
       </section>
     </main>

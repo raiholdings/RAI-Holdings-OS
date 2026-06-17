@@ -61,7 +61,7 @@ export function PlanDetail({ plan }: { plan: Plan }) {
         <div className={`${WRAP} py-12 text-center`}>
           <h2 className="text-[1.6rem] font-medium tracking-tight text-white">{tr(t("Ready to start?", "Sẵn sàng bắt đầu?"))}</h2>
           <p className="mx-auto mt-3 max-w-xl text-[1rem] text-white/80">{tr(t("Talk to an advisor to tailor this plan to your business.", "Trao đổi với chuyên gia để may đo gói này cho doanh nghiệp của bạn."))}</p>
-          <div className="mt-6"><Link href="/enterprise/contribute" className={buttonClass("outline", "lg") + " !bg-white !text-fund !border-white"}>{tr(t("Contact sales", "Liên hệ tư vấn"))}<Icon name="arrow-up-right" size={18} /></Link></div>
+          <div className="mt-6"><Link href="/#cta-final" className={buttonClass("outline", "lg") + " !bg-white !text-fund !border-white"}>{tr(t("Contact sales", "Liên hệ tư vấn"))}<Icon name="arrow-up-right" size={18} /></Link></div>
         </div>
       </section>
     </main>
