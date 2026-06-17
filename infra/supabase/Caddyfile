@@ -1,0 +1,24 @@
+# Caddy reverse proxy for RAI Supabase. Auto Let's Encrypt SSL.
+# Run on the VPS on the same Docker network as the Supabase stack
+# (gateway service is `kong:8000`, studio is `studio:3000`).
+
+# Public API gateway — the ONLY public Supabase surface.
+api.raiholdings.vn {
+	encode zstd gzip
+	reverse_proxy kong:8000
+}
+
+# Studio — LOCKED DOWN. Replace the allowlist with your office/VPN IPs,
+# and set a bcrypt hash for basic auth (generate: `caddy hash-password`).
+studio.raiholdings.vn {
+	@allowed remote_ip 203.0.113.0/24 198.51.100.10   # <-- replace with YOUR IPs/CIDRs
+	handle @allowed {
+		basic_auth {
+			rai-admin __PASTE_caddy_hash-password_OUTPUT__
+		}
+		reverse_proxy studio:3000
+	}
+	handle {
+		respond "Forbidden" 403
+	}
+}
