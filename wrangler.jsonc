@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "rai-holdings-os",
+  "name": "raiholdings",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -9,7 +9,7 @@
     "binding": "ASSETS"
   },
   "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "rai-holdings-os" }
+    { "binding": "WORKER_SELF_REFERENCE", "service": "raiholdings" }
   ],
   "observability": { "enabled": true }
 }
