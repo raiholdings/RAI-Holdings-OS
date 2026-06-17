@@ -24,8 +24,21 @@ const HOST_TO_SLUG: Record<string, string> = {
   "raiads.vn": "rai-ads",
 };
 
+// The OS Console lives at /app; serve it on the app.raiholdings.vn subdomain.
+const CONSOLE_HOST = "app.raiholdings.vn";
+
 export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") ?? "").split(":")[0].replace(/^www\./, "");
+
+  // OS Console — app.raiholdings.vn/* → /app/*
+  if (host === CONSOLE_HOST) {
+    const url = req.nextUrl.clone();
+    if (url.pathname.startsWith("/app")) return NextResponse.next();
+    url.pathname = url.pathname === "/" ? "/app" : `/app${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // Satellite venture domains — raigpt.vn/* → /v/rai-gpt
   const slug = HOST_TO_SLUG[host];
   if (!slug) return NextResponse.next();
 
