@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* ============================================================
+   RAI Holdings OS — Brand Design System v1.0.0
+   Source: RAI Brand Guidelines v1.0.0 + Master Blueprint v2.0.0
+   Posture: confidence without ornament — no gradients, no shadows,
+   no glow. Borders not shadows. Radius 2–8px. Weights 400/500 only.
+   ============================================================ */
+@theme {
+  /* ---- Neutrals — Warm Gray ramp (the 60%) ---- */
+  --color-bg: #f8f7f2; /* gray-50 */
+  --color-surface: #ffffff; /* surface-primary */
+  --color-surface-2: #f1efe8; /* surface-secondary */
+  --color-text: #2c2c2a; /* text-primary — never pure black */
+  --color-text-2: #5f5e5a; /* text-secondary */
+  --color-border: #d3d1c7; /* gray-200 */
+  --color-border-strong: #a8a69c;
+
+  /* ---- Entity primaries — color is the only entity differentiator ---- */
+  --color-holdings: #378add; /* Royal Blue — master / accent */
+  --color-fund: #0c447c; /* Steel Blue */
+  --color-lab: #0f6e56; /* Tech Teal */
+  --color-one: #3b6d11; /* Kinetic Green */
+  --color-accent: #378add; /* homepage is a Holdings surface */
+
+  /* ---- Semantic ---- */
+  --color-ok: #1d9e75;
+  --color-warn: #ef9f27;
+  --color-err: #e24b4a;
+
+  /* ---- Type ---- */
+  --font-display: var(--font-grotesk), "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono-src), ui-monospace, "SF Mono", Consolas, monospace;
+
+  /* ---- Radius — small, institutional ---- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* ---- Easing ---- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* ---- Legacy dark tokens (the /app console keeps these until its own pass) ---- */
+  --color-ink: #0a0e1a;
+  --color-ink-2: #0e1424;
+  --color-ink-3: #131a2e;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-2: rgba(255, 255, 255, 0.14);
+  --color-fg: #e8ecf6;
+  --color-muted: #97a0b8;
+  --color-muted-2: #6b7490;
+  --color-brand: #4f7cff;
+  --color-brand-2: #7a5cff;
+  --color-gain: #34d399;
+  --color-danger: #ff8b8b;
+}
+
+/* ---------- Base ---------- */
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-holdings) 20%, transparent);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em; /* display negative tracking */
+}
+
+/* ---------- Brand utilities ---------- */
+
+/* ALL CAPS label — letter-spacing ≈1.5px, weight 500 */
+@utility label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Machine-readable metadata — JetBrains Mono */
+@utility mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Section accent — 24×3px rectangle in entity primary above an H2 */
+@utility accent-rule {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: currentColor;
+}
+
+/* Legacy utilities — used only by the /app dark console until its own pass */
+@utility bg-grad-brand {
+  background: linear-gradient(100deg, #5b8bff, #8a6cff);
+}
+@utility text-gradient {
+  background: linear-gradient(100deg, #5b8bff, #8a6cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Scroll reveal (subtle; kinetic, not ornamental) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+}
+.reveal[data-in="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
