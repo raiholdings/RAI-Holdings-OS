@@ -128,7 +128,7 @@ function SubmitTab() {
               <option value="workflow">Workflow</option>
             </select>
           </Field>
-          <Field label={tr(t("Icon", "Icon"))}>
+          <Field label={tr(t("Icon", "Biểu tượng"))}>
             <div className="flex flex-wrap gap-1.5">
               {ICONS.map((ic) => (
                 <button key={ic} type="button" onClick={() => setF({ ...f, icon: ic })} className={cn("grid size-9 place-items-center rounded-[var(--radius-md)] border", f.icon === ic ? "border-accent text-accent" : "border-border text-text-2")}><Icon name={ic} size={17} /></button>

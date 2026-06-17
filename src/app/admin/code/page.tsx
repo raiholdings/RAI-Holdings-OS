@@ -120,7 +120,7 @@ function NewTab({ onDone }: { onDone: () => void }) {
           <Field label={tr(t("Repository name", "Tên kho mã"))}><input className={cn(inp, "font-[family-name:var(--font-mono)]")} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="my-app" /></Field>
         </div>
         <Field label={tr(t("Description", "Mô tả"))}><input className={inp} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} /></Field>
-        <Field label={tr(t("Template", "Template"))}>
+        <Field label={tr(t("Template", "Mẫu"))}>
           <div className="flex flex-wrap gap-1.5">{(Object.keys(templateLabels) as Template[]).map((tk) => <button key={tk} onClick={() => setF({ ...f, template: tk })} className={cn("rounded-[var(--radius-md)] border px-3 py-1.5 text-[0.82rem]", f.template === tk ? "border-accent bg-accent/10 text-accent" : "border-border text-text-2")}>{templateLabels[tk]}</button>)}</div>
         </Field>
         <div className="grid grid-cols-2 gap-4">

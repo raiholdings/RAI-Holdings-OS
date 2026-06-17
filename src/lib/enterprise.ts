@@ -84,7 +84,7 @@ export const blockTypeLabels: Record<BlockType, T> = {
   use_case_steps: t("Use-case steps", "Các bước kịch bản"),
   proof: t("Proof", "Bằng chứng"),
   comparison: t("Comparison", "So sánh"),
-  faq: t("FAQ", "FAQ"),
+  faq: t("FAQ", "Hỏi đáp"),
   cta_band: t("CTA band", "Dải CTA"),
 };
 

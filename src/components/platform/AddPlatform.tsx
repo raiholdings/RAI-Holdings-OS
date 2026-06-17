@@ -55,7 +55,7 @@ export function AddPlatform() {
               <div><label className={lbl}>{tr(t("Platform name", "Tên nền tảng"))}</label><input value={name} onChange={(e) => setName(e.target.value)} className={field} /></div>
               <div><label className={lbl}>{tr(t("Vendor", "Nhà cung cấp"))}</label><input value={vendorName} onChange={(e) => setVendor(e.target.value)} className={field} /></div>
             </div>
-            <div><label className={lbl}>{tr(t("Website", "Website"))}</label><input value={websiteUrl} onChange={(e) => setWebsite(e.target.value)} placeholder="https://" className={field} /></div>
+            <div><label className={lbl}>{tr(t("Website", "Trang web"))}</label><input value={websiteUrl} onChange={(e) => setWebsite(e.target.value)} placeholder="https://" className={field} /></div>
             <div><label className={lbl}>{tr(t("Short description", "Mô tả ngắn"))}</label><textarea value={shortDescription} onChange={(e) => setDesc(e.target.value)} rows={3} className={field} /></div>
             <div className="grid gap-5 sm:grid-cols-3">
               <div><label className={lbl}>{tr(t("Category", "Danh mục"))}</label><select value={categorySlug} onChange={(e) => setCat(e.target.value)} className={field}>{cats.map((c) => <option key={c.slug} value={c.slug}>{c.name.en}</option>)}</select></div>

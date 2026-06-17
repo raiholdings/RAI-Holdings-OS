@@ -25,7 +25,7 @@ export const categoryLabels: Record<LicenseCategory, T> = {
   permissive: t("Permissive", "Dễ dãi"),
   copyleft_weak: t("Weak copyleft", "Copyleft yếu"),
   copyleft_strong: t("Strong copyleft", "Copyleft mạnh"),
-  source_available: t("Source-available", "Source-available"),
+  source_available: t("Source-available", "Nguồn mở giới hạn"),
   commercial: t("Commercial", "Thương mại"),
   proprietary: t("Proprietary", "Độc quyền"),
 };

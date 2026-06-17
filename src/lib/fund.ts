@@ -37,7 +37,7 @@ export const thesis: Pillar[] = [
   { n: "01", title: t("Invest in solo founders, not headcount", "Đầu tư vào Solo Founder, không vào headcount"), body: t("Each venture runs a lean team of ≤5 + an AI workforce. Burn under $80K/mo. Time-to-revenue under 6 months.", "Mỗi venture đội tinh gọn ≤5 người + AI workforce. Burn dưới $80K/tháng. Time-to-revenue dưới 6 tháng.") },
   { n: "02", title: t("Capital + infrastructure", "Capital + Infrastructure"), body: t("Each portfolio gets capital plus 24 months free RAI LAB & RAI ONE — about $300K–500K in infrastructure savings.", "Mỗi portfolio nhận vốn cùng 24 tháng miễn phí RAI LAB & RAI ONE — tương đương $300K–500K tiết kiệm hạ tầng.") },
   { n: "03", title: t("Operational partnership", "Đồng hành vận hành"), body: t("Each portfolio has an Operating Partner on a monthly cadence — go-to-market, hiring, next-round fundraising.", "Mỗi portfolio có một Operating Partner đồng hành hằng tháng — go-to-market, tuyển dụng, gọi vốn vòng sau.") },
-  { n: "04", title: t("Concentration over diversification", "Concentration over diversification"), body: t("Max 12–15 deals per fund. Max 15% NAV per deal. Conviction-based, not spray-and-pray.", "Mỗi quỹ tối đa 12–15 deal. Tối đa 15% NAV cho một deal. Conviction-based, không spray-and-pray.") },
+  { n: "04", title: t("Concentration over diversification", "Tập trung thay vì dàn trải"), body: t("Max 12–15 deals per fund. Max 15% NAV per deal. Conviction-based, not spray-and-pray.", "Mỗi quỹ tối đa 12–15 deal. Tối đa 15% NAV cho một deal. Conviction-based, không spray-and-pray.") },
 ];
 
 /* ----------------------------- 4 funds ---------------------------------- */
@@ -56,10 +56,10 @@ export const funds: Fund[] = [
 /* ----------------------------- Criteria --------------------------------- */
 export type CriteriaGroup = { group: T; items: { k: T; v: T }[] };
 export const criteria: CriteriaGroup[] = [
-  { group: t("Founder", "Founder"), items: [
-    { k: t("Domain expertise", "Domain expertise"), v: t("≥3 years directly in the target industry", "≥3 năm trực tiếp trong ngành venture nhắm tới") },
-    { k: t("Track record", "Track record"), v: t("Shipped a product or reached $500K+ revenue", "Đã ship sản phẩm hoặc đạt $500K+ doanh thu") },
-    { k: t("AI fluency", "AI fluency"), v: t("Can command AI agents (no code needed)", "Có thể chỉ huy AI agents (không cần code)") },
+  { group: t("Founder", "Nhà sáng lập"), items: [
+    { k: t("Domain expertise", "Chuyên môn ngành"), v: t("≥3 years directly in the target industry", "≥3 năm trực tiếp trong ngành venture nhắm tới") },
+    { k: t("Track record", "Kinh nghiệm thực chiến"), v: t("Shipped a product or reached $500K+ revenue", "Đã ship sản phẩm hoặc đạt $500K+ doanh thu") },
+    { k: t("AI fluency", "Thông thạo AI"), v: t("Can command AI agents (no code needed)", "Có thể chỉ huy AI agents (không cần code)") },
     { k: t("Commitment", "Cam kết"), v: t("Full-time, ≥3 years, 4-year vesting", "Full-time, ≥3 năm, vesting 4 năm") },
   ]},
   { group: t("Market", "Thị trường"), items: [
@@ -72,7 +72,7 @@ export const criteria: CriteriaGroup[] = [
     { k: t("Revenue", "Doanh thu"), v: t("Recurring (SaaS, subscription, transaction)", "Định kỳ (SaaS, subscription, transaction)") },
     { k: t("LTV / CAC", "LTV / CAC"), v: t("≥3 within 18 months", "≥3 đạt trong 18 tháng") },
     { k: t("Gross margin", "Biên gộp"), v: t("≥60% after RAI infrastructure", "≥60% sau chi phí hạ tầng RAI") },
-    { k: t("Moat", "Moat"), v: t("Data, network effect, or distribution moat", "Data, network effect, hoặc distribution moat") },
+    { k: t("Moat", "Lợi thế phòng thủ"), v: t("Data, network effect, or distribution moat", "Data, network effect, hoặc distribution moat") },
   ]},
 ];
 
@@ -81,10 +81,10 @@ export type Stage = { when: T; title: T; body: T; pass?: string };
 export const process: Stage[] = [
   { when: t("Week 1", "Tuần 1"), title: t("Sourcing & initial screen", "Sourcing & sàng lọc"), body: t("Application or referral. 1-hour screen with an Associate.", "Ứng tuyển hoặc referral. Screen 1 giờ với Associate."), pass: "~30%" },
   { when: t("Week 2", "Tuần 2"), title: t("Partner meeting", "Gặp Partner"), body: t("60-min pitch with 2 Partners — model, founder, competition.", "Pitch 60 phút với 2 Partner — mô hình, founder, cạnh tranh."), pass: "~50%" },
-  { when: t("Week 3–4", "Tuần 3–4"), title: t("Due diligence", "Due diligence"), body: t("Market validation, 5+ customer interviews, technical review via RAI LAB, references.", "Validate thị trường, phỏng vấn 5+ khách, technical review qua RAI LAB, reference."), pass: "~60%" },
-  { when: t("Week 5", "Tuần 5"), title: t("Investment Committee", "Investment Committee"), body: t("Present to the 5-member IC. Needs ≥4/5 to approve.", "Trình bày trước IC 5 thành viên. Cần ≥4/5 đồng ý."), pass: "~70%" },
+  { when: t("Week 3–4", "Tuần 3–4"), title: t("Due diligence", "Thẩm định"), body: t("Market validation, 5+ customer interviews, technical review via RAI LAB, references.", "Validate thị trường, phỏng vấn 5+ khách, technical review qua RAI LAB, reference."), pass: "~60%" },
+  { when: t("Week 5", "Tuần 5"), title: t("Investment Committee", "Hội đồng Đầu tư"), body: t("Present to the 5-member IC. Needs ≥4/5 to approve.", "Trình bày trước IC 5 thành viên. Cần ≥4/5 đồng ý."), pass: "~70%" },
   { when: t("Week 6", "Tuần 6"), title: t("Term sheet", "Term sheet"), body: t("Negotiate terms — SAFE/note or priced round, pro-rata, board seat if lead.", "Đàm phán term — SAFE/note hoặc priced round, pro-rata, board seat nếu lead."), },
-  { when: t("Week 7–8", "Tuần 7–8"), title: t("Closing", "Closing"), body: t("Legal docs, KYC, wire. Onboard into RAI (LAB & ONE), assign Operating Partner.", "Pháp lý, KYC, wire. Onboard vào RAI (LAB & ONE), assign Operating Partner."), },
+  { when: t("Week 7–8", "Tuần 7–8"), title: t("Closing", "Chốt thương vụ"), body: t("Legal docs, KYC, wire. Onboard into RAI (LAB & ONE), assign Operating Partner.", "Pháp lý, KYC, wire. Onboard vào RAI (LAB & ONE), assign Operating Partner."), },
 ];
 
 /* ----------------------------- Founder value (comparison) --------------- */
@@ -101,23 +101,23 @@ export const founderCompare: CompareRow[] = [
 /* ----------------------------- Returns (4 streams) ---------------------- */
 export type Stream = { code: string; name: T; pct: string; body: T };
 export const streams: Stream[] = [
-  { code: "01", name: t("Capital gain", "Capital gain"), pct: "~40%", body: t("Exit profits (IPO, M&A) of portfolio companies. Horizon 5–8 years.", "Lợi nhuận từ exit (IPO, M&A) của portfolio. Thu hồi 5–8 năm.") },
-  { code: "02", name: t("Equity dividend", "Equity dividend"), pct: "~10%", body: t("Dividends from equity in profitable portfolio. From years 3–5.", "Cổ tức từ cổ phần tại portfolio đã có lãi. Từ năm 3–5.") },
-  { code: "03", name: t("Revenue share", "Revenue share"), pct: "~35%", body: t("Infrastructure fees via RAI LAB & RAI ONE — recurring, even without an exit.", "Phí hạ tầng từ RAI LAB & RAI ONE — định kỳ, ngay cả khi không có exit.") },
-  { code: "04", name: t("Ecosystem value", "Ecosystem value"), pct: "~15%", body: t("Growth in total ecosystem value over time — reflected in NAV.", "Tăng giá trị tổng hệ sinh thái theo thời gian — phản ánh trong NAV.") },
+  { code: "01", name: t("Capital gain", "Lãi vốn"), pct: "~40%", body: t("Exit profits (IPO, M&A) of portfolio companies. Horizon 5–8 years.", "Lợi nhuận từ exit (IPO, M&A) của portfolio. Thu hồi 5–8 năm.") },
+  { code: "02", name: t("Equity dividend", "Cổ tức cổ phần"), pct: "~10%", body: t("Dividends from equity in profitable portfolio. From years 3–5.", "Cổ tức từ cổ phần tại portfolio đã có lãi. Từ năm 3–5.") },
+  { code: "03", name: t("Revenue share", "Chia sẻ doanh thu"), pct: "~35%", body: t("Infrastructure fees via RAI LAB & RAI ONE — recurring, even without an exit.", "Phí hạ tầng từ RAI LAB & RAI ONE — định kỳ, ngay cả khi không có exit.") },
+  { code: "04", name: t("Ecosystem value", "Giá trị hệ sinh thái"), pct: "~15%", body: t("Growth in total ecosystem value over time — reflected in NAV.", "Tăng giá trị tổng hệ sinh thái theo thời gian — phản ánh trong NAV.") },
 ];
 
 /* ----------------------------- LP terms --------------------------------- */
 export type Term = { k: T; v: T };
 export const lpTerms: Term[] = [
-  { k: t("Management fee", "Management fee"), v: t("2% AUM/yr (5y commitment) · 1% after", "2% AUM/năm (5 năm) · 1% sau commitment") },
+  { k: t("Management fee", "Phí quản lý"), v: t("2% AUM/yr (5y commitment) · 1% after", "2% AUM/năm (5 năm) · 1% sau commitment") },
   { k: t("Carried interest", "Carried interest"), v: t("20% over an 8% IRR hurdle", "20% trên hurdle 8% IRR") },
-  { k: t("Hurdle rate", "Hurdle rate"), v: t("8% IRR (preferred return)", "8% IRR (preferred return)") },
-  { k: t("GP commitment", "GP commitment"), v: t("≥2% of fund capital", "≥2% vốn quỹ") },
-  { k: t("Commitment period", "Commitment period"), v: t("5 years", "5 năm") },
-  { k: t("Fund life", "Fund life"), v: t("8 years + 2-year extension", "8 năm + 2 năm gia hạn") },
+  { k: t("Hurdle rate", "Hurdle rate"), v: t("8% IRR (preferred return)", "8% IRR (lợi nhuận ưu tiên)") },
+  { k: t("GP commitment", "Cam kết GP"), v: t("≥2% of fund capital", "≥2% vốn quỹ") },
+  { k: t("Commitment period", "Kỳ cam kết"), v: t("5 years", "5 năm") },
+  { k: t("Fund life", "Vòng đời quỹ"), v: t("8 years + 2-year extension", "8 năm + 2 năm gia hạn") },
   { k: t("LP reporting", "Báo cáo LP"), v: t("Quarterly NAV · annual audit · K-1", "NAV quý · audit năm · K-1") },
-  { k: t("Co-investment", "Co-investment"), v: t("Rights for LPs committing ≥$3M", "Quyền cho LP commit ≥$3M") },
+  { k: t("Co-investment", "Đồng đầu tư"), v: t("Rights for LPs committing ≥$3M", "Quyền cho LP commit ≥$3M") },
 ];
 
 export const fundContact = {

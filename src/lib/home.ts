@@ -58,8 +58,8 @@ export function getHomeMetrics(): HomeMetrics {
     { key: "apps", label: t("Active AI apps", "Ứng dụng AI hoạt động"), value: appsN.value, unit: t("apps", "app"), source: "/api/apps", sparkline: ramp(appsN.value), stale: appsN.stale },
     { key: "mcp", label: t("MCP servers", "MCP server"), value: mcpN.value, unit: t("servers", "server"), source: "/api/mcp/v0/servers", sparkline: ramp(mcpN.value), stale: mcpN.stale },
     { key: "listings", label: t("Marketplace listings", "Listing marketplace"), value: listingsN.value, unit: t("listings", "listing"), source: "/api/marketplace", sparkline: ramp(listingsN.value), stale: listingsN.stale },
-    { key: "deploys", label: t("Live deployments", "Bản triển khai chạy"), value: deploysN.value, unit: t("live", "live"), source: "/api/code", sparkline: ramp(deploysN.value), stale: deploysN.stale },
-    { key: "platforms", label: t("Platforms in catalog", "Nền tảng trong catalog"), value: platformsN.value, unit: t("platforms", "nền tảng"), source: "/api/pricing", sparkline: ramp(platformsN.value), stale: platformsN.stale },
+    { key: "deploys", label: t("Live deployments", "Bản triển khai chạy"), value: deploysN.value, unit: t("live", "bản"), source: "/api/code", sparkline: ramp(deploysN.value), stale: deploysN.stale },
+    { key: "platforms", label: t("Platforms in catalog", "Nền tảng trong danh mục"), value: platformsN.value, unit: t("platforms", "nền tảng"), source: "/api/pricing", sparkline: ramp(platformsN.value), stale: platformsN.stale },
     { key: "companies", label: t("Ecosystem entries", "Mục hệ sinh thái"), value: companiesN.value, unit: t("entries", "mục"), source: "/api/portfolio", sparkline: ramp(companiesN.value), stale: companiesN.stale },
   ];
 

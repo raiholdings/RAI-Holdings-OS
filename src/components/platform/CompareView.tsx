@@ -29,7 +29,7 @@ export function CompareView() {
 
   return (
     <main className={`${WRAP} py-10`}>
-      <Link href="/platform" className="mono mb-6 inline-flex items-center gap-1 text-[0.72rem] uppercase tracking-wider text-text-2 hover:text-text"><Icon name="arrow-up-right" size={13} className="rotate-180" />{tr(t("Catalog", "Catalog"))}</Link>
+      <Link href="/platform" className="mono mb-6 inline-flex items-center gap-1 text-[0.72rem] uppercase tracking-wider text-text-2 hover:text-text"><Icon name="arrow-up-right" size={13} className="rotate-180" />{tr(t("Catalog", "Danh mục"))}</Link>
       <h1 className="text-[1.7rem] font-medium tracking-tight text-text">{tr(t("Compare platforms", "So sánh nền tảng"))}</h1>
       <div className="accent-rule my-5" />
       {cols.length < 2 ? (

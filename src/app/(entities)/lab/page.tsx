@@ -12,8 +12,8 @@ import {
 const sectionNav: { id: string; label: T }[] = [
   { id: "arch", label: t("Architecture", "Kiến trúc") },
   { id: "principles", label: t("Principles", "Nguyên tắc") },
-  { id: "pricing", label: t("Pricing", "Pricing") },
-  { id: "usecases", label: t("Use cases", "Use cases") },
+  { id: "pricing", label: t("Pricing", "Bảng giá") },
+  { id: "usecases", label: t("Use cases", "Tình huống ứng dụng") },
   { id: "verticals", label: t("Verticals", "Ngành dọc") },
   { id: "security", label: t("Security", "Bảo mật") },
 ];
@@ -113,7 +113,7 @@ export default function RaiLabPage() {
 
       {/* use cases */}
       <section id="usecases" className="mt-12 scroll-mt-20">
-        <SectionTitle label={t("Use cases", "Use cases")} title={t("Top use cases by measured ROI", "Use cases hàng đầu theo ROI")} />
+        <SectionTitle label={t("Use cases", "Tình huống ứng dụng")} title={t("Top use cases by measured ROI", "Use cases hàng đầu theo ROI")} />
         <div className="grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {useCases.map((u) => <UseCaseCard key={u.stack} u={u} />)}
         </div>

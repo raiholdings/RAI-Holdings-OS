@@ -185,7 +185,7 @@ function Wizard({ onPublished }: { onPublished: () => void }) {
         <Field label={tr(t("Tagline", "Mô tả ngắn"))}><input className={inp} value={f.tagline} onChange={(e) => setF({ ...f, tagline: e.target.value })} /></Field>
         <Field label={tr(t("Description", "Mô tả"))}><textarea className={cn(inp, "min-h-[70px]")} value={f.description} onChange={(e) => setF({ ...f, description: e.target.value })} /></Field>
         <div className="grid grid-cols-2 gap-4">
-          <Field label={tr(t("Icon", "Icon"))}>
+          <Field label={tr(t("Icon", "Biểu tượng"))}>
             <div className="flex flex-wrap gap-1.5">{ICONS.map((ic) => <button key={ic} type="button" onClick={() => setF({ ...f, icon: ic })} className={cn("grid size-9 place-items-center rounded-[var(--radius-md)] border", f.icon === ic ? "border-accent text-accent" : "border-border text-text-2")}><Icon name={ic} size={17} /></button>)}</div>
           </Field>
           <Field label={tr(t("Compatibility", "Tương thích"))}>
@@ -270,7 +270,7 @@ function ReviewCard({ l }: { l: Listing }) {
           </ul>
         </div>
         <div className="rounded-[var(--radius-md)] border border-border bg-bg p-4">
-          <span className="label text-text-2">{tr(t("Checklist", "Checklist"))}</span>
+          <span className="label text-text-2">{tr(t("Checklist", "Danh mục kiểm tra"))}</span>
           <ul className="mt-2 grid gap-2">{checks.map((c) => <li key={c.key}><label className="flex items-start gap-2 text-[0.82rem] text-text"><input type="checkbox" disabled={l.status === "approved"} checked={!!ck[c.key]} onChange={(e) => setCk((s) => ({ ...s, [c.key]: e.target.checked }))} className="mt-0.5 accent-[var(--color-accent)]" />{tr(c.label)}</label></li>)}</ul>
         </div>
       </div>

@@ -25,11 +25,11 @@ export const tabLabels: Record<PortfolioTab, T> = {
 export const tabOrder: PortfolioTab[] = ["platforms", "companies", "investments"];
 
 export const pillarLabels: Record<Pillar, T> = {
-  tech_business: t("Tech Business", "Tech Business"),
-  saas_platform: t("SaaS Platform", "SaaS Platform"),
-  tech_transfer: t("Technology Transfer", "Technology Transfer"),
-  community_platform: t("Community Platform", "Community Platform"),
-  franchise_venture: t("Franchise & Venture Partnership", "Franchise & Venture Partnership"),
+  tech_business: t("Tech Business", "Kinh doanh công nghệ"),
+  saas_platform: t("SaaS Platform", "Nền tảng SaaS"),
+  tech_transfer: t("Technology Transfer", "Chuyển giao công nghệ"),
+  community_platform: t("Community Platform", "Nền tảng cộng đồng"),
+  franchise_venture: t("Franchise & Venture Partnership", "Nhượng quyền & Đối tác Venture"),
 };
 export const pillarBlurb: Record<Pillar, T> = {
   tech_business: t("Vertical tech platforms by industry.", "Nền tảng công nghệ theo ngành."),

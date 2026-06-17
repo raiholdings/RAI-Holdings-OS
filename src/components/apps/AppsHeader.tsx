@@ -15,7 +15,7 @@ export function AppsHeader() {
   const links = [
     { href: "/apps", label: t("Directory", "Thư mục") },
     { href: "/apps/host", label: t("Host", "Host") },
-    { href: "/apps/billing", label: t("Billing", "Billing") },
+    { href: "/apps/billing", label: t("Billing", "Thanh toán") },
   ];
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur-md">

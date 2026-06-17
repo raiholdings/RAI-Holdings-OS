@@ -7,7 +7,7 @@ import { useLang, t } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
 const links = [
-  { href: "/platform", label: t("Catalog", "Catalog"), exact: true },
+  { href: "/platform", label: t("Catalog", "Danh mục"), exact: true },
   { href: "/platform/compare", label: t("Compare", "So sánh") },
 ];
 

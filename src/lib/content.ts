@@ -49,7 +49,7 @@ export const navGroups: NavGroup[] = [
     items: [
       { label: t("Events", "Sự kiện"), href: "#events" },
       { label: t("Insights", "Bài viết"), href: "#insights" },
-      { label: t("FAQ", "FAQ"), href: "#faq" },
+      { label: t("FAQ", "Hỏi đáp"), href: "#faq" },
     ],
   },
   // Standalone tab (direct link, no dropdown) — sits next to Resources.
@@ -273,7 +273,7 @@ export const footerCols: FooterCol[] = [
     { label: t("Company", "Công ty"), href: "#" }, { label: t("Methodology", "Phương pháp"), href: "#how" }, { label: t("Locations", "Địa điểm"), href: "#network" }, { label: t("Press", "Báo chí"), href: "#" },
   ]},
   { title: t("Support", "Hỗ trợ"), links: [
-    { label: t("Apply", "Đăng ký"), href: "#cta-final" }, { label: t("Contact", "Liên hệ"), href: "#" }, { label: t("Agreements", "Hợp đồng"), href: "#" }, { label: t("FAQ", "FAQ"), href: "#faq" },
+    { label: t("Apply", "Đăng ký"), href: "#cta-final" }, { label: t("Contact", "Liên hệ"), href: "#" }, { label: t("Agreements", "Hợp đồng"), href: "#" }, { label: t("FAQ", "Hỏi đáp"), href: "#faq" },
   ]},
   { title: t("Resources", "Tài nguyên"), links: [
     { label: t("Marketplace", "Marketplace"), href: "/marketplace" }, { label: t("Code", "Code"), href: "/code" }, { label: t("Apps", "Ứng dụng"), href: "/apps" }, { label: t("MCP Registry", "MCP Registry"), href: "/mcp" },

@@ -12,7 +12,7 @@ export function Faq() {
   return (
     <Section id="faq" alt>
       <Container narrow>
-        <SectionHeading label={t("FAQ", "FAQ")} title={t("Frequently asked questions", "Câu hỏi thường gặp")} center />
+        <SectionHeading label={t("FAQ", "Hỏi đáp")} title={t("Frequently asked questions", "Câu hỏi thường gặp")} center />
         <div className="grid gap-2.5">
           {faqs.map((f, i) => (
             <Reveal key={tr(f.q)} delay={i * 50}>

@@ -42,7 +42,7 @@ export function PlatformDetail({ slug, seed }: { slug: string; seed: Platform | 
     <main>
       <section className="border-b border-border bg-surface">
         <div className={`${WRAP} py-10`}>
-          <Link href="/platform" className="mono mb-6 inline-flex items-center gap-1 text-[0.72rem] uppercase tracking-wider text-text-2 hover:text-text"><Icon name="arrow-up-right" size={13} className="rotate-180" />{tr(t("Catalog", "Catalog"))}</Link>
+          <Link href="/platform" className="mono mb-6 inline-flex items-center gap-1 text-[0.72rem] uppercase tracking-wider text-text-2 hover:text-text"><Icon name="arrow-up-right" size={13} className="rotate-180" />{tr(t("Catalog", "Danh mục"))}</Link>
           <div className="flex flex-wrap items-start gap-4">
             <span className="grid size-14 place-items-center rounded-[var(--radius-md)] text-[1.1rem] font-medium text-white" style={{ background: p.accent }}>{p.monogram}</span>
             <div className="flex-1">
@@ -55,7 +55,7 @@ export function PlatformDetail({ slug, seed }: { slug: string; seed: Platform | 
               <p className="mt-2 max-w-2xl text-[1rem] text-text-2">{tr(p.shortDescription)}</p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 {rating.reviewCount > 0 ? <span className="inline-flex items-center gap-1 text-[0.9rem] text-text"><span style={{ color: "#C9A227" }}>★</span>{rating.ratingAvg.toFixed(1)} <span className="text-text-2">({rating.reviewCount})</span></span> : <span className="mono text-[0.74rem] text-text-2">{tr(t("No reviews yet", "Chưa có đánh giá"))}</span>}
-                <a href={p.websiteUrl} target="_blank" rel="noreferrer" className={buttonClass("outline", "sm")}>{tr(t("Website", "Website"))}<Icon name="arrow-up-right" size={13} /></a>
+                <a href={p.websiteUrl} target="_blank" rel="noreferrer" className={buttonClass("outline", "sm")}>{tr(t("Website", "Trang web"))}<Icon name="arrow-up-right" size={13} /></a>
               </div>
               {p.raiRefs.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{p.raiRefs.map((r, i) => <Link key={i} href={r.href} className="mono inline-flex items-center gap-1 rounded-[var(--radius-md)] border border-accent/40 bg-accent/5 px-2.5 py-1 text-[0.72rem] text-accent">{tr(r.label)}<Icon name="arrow-up-right" size={12} /></Link>)}</div>}
             </div>

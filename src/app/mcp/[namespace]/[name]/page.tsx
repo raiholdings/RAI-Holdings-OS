@@ -47,7 +47,7 @@ export default function ServerDetail() {
             <span>By {namespaceOf(server.name)}</span>
             <span className="flex items-center gap-1"><Icon name="bolt" size={12} /> {(stats.installs ?? 0).toLocaleString("en-US")}</span>
             {server.repository && <a href={server.repository.url} className="flex items-center gap-1 text-accent" target="_blank" rel="noreferrer"><Icon name="arrow-up-right" size={12} /> {tr(t("Repository", "Mã nguồn"))}</a>}
-            {server.websiteUrl && <a href={server.websiteUrl} className="flex items-center gap-1 text-accent" target="_blank" rel="noreferrer"><Icon name="world" size={12} /> {tr(t("Website", "Website"))}</a>}
+            {server.websiteUrl && <a href={server.websiteUrl} className="flex items-center gap-1 text-accent" target="_blank" rel="noreferrer"><Icon name="world" size={12} /> {tr(t("Website", "Trang web"))}</a>}
           </div>
         </div>
         <button onClick={() => setInstall(server)} className="flex-none rounded-[var(--radius-md)] px-5 py-2.5 text-[0.88rem] font-medium text-white" style={{ background: color }}>{tr(t("Install", "Cài đặt"))}</button>

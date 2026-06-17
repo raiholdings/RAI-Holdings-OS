@@ -14,7 +14,7 @@ const sectionNav: { id: string; label: T }[] = [
   { id: "funds", label: t("Funds", "Các quỹ") },
   { id: "criteria", label: t("Criteria", "Tiêu chí") },
   { id: "process", label: t("Process", "Quy trình") },
-  { id: "founders", label: t("Founders", "Founder") },
+  { id: "founders", label: t("Founders", "Nhà sáng lập") },
   { id: "returns", label: t("Returns", "Hoàn vốn") },
   { id: "lps", label: t("LPs", "LP") },
 ];
@@ -193,9 +193,9 @@ function FundCard({ f }: { f: Fund }) {
   const { tr } = useLang();
   const specs: { k: T; v: string }[] = [
     { k: t("Stage", "Giai đoạn"), v: tr(f.stage) },
-    { k: t("Ticket", "Ticket"), v: f.ticket },
+    { k: t("Ticket", "Quy mô"), v: f.ticket },
     { k: t("Deals", "Số deal"), v: f.deals },
-    { k: t("Hold", "Hold"), v: tr(f.hold) },
+    { k: t("Hold", "Nắm giữ"), v: tr(f.hold) },
   ];
   return (
     <div className="rounded-[var(--radius-lg)] border border-border bg-surface p-6">

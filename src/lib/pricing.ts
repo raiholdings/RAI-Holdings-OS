@@ -92,7 +92,7 @@ const ADDONS: AddOn[] = [
 
 const PLANS: Plan[] = [
   {
-    id: "plan-free", key: "free", name: t("Free", "Free"), tagline: t("Start building on RAI OS at no cost.", "Bắt đầu xây trên RAI OS miễn phí."),
+    id: "plan-free", key: "free", name: t("Free", "Miễn phí"), tagline: t("Start building on RAI OS at no cost.", "Bắt đầu xây trên RAI OS miễn phí."),
     kind: "subscription", recommended: false, priceModel: "free", priceMonthly: 0, priceYearly: 0, priceUnit: t("/month", "/tháng"),
     ctas: [{ label: t("Start free", "Bắt đầu miễn phí"), url: "/apps", style: "secondary" }],
     featureItems: [

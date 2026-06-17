@@ -80,7 +80,7 @@ export function InstallModal({ server, onClose }: { server: ServerJson | null; o
         <div className="relative mt-3">
           <pre className="mono max-h-64 overflow-auto rounded-[var(--radius-md)] border border-border bg-bg p-4 text-[0.76rem] leading-relaxed text-text">{snippet}</pre>
           <button onClick={copy} className="absolute right-2 top-2 rounded-[var(--radius-sm)] bg-accent px-2.5 py-1 text-[0.72rem] font-medium text-white">
-            {copied ? tr(t("Copied", "Đã copy")) : tr(t("Copy", "Copy"))}
+            {copied ? tr(t("Copied", "Đã copy")) : tr(t("Copy", "Sao chép"))}
           </button>
         </div>
 

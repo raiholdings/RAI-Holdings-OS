@@ -46,7 +46,7 @@ export const statusMeta: Record<LabProduct["status"], { label: T; tone: string }
 // Ordered top → bottom as presented (Layer 04 on top, 01 at the core).
 export const labLayers: LabLayer[] = [
   {
-    code: "L04", name: t("Automation & Workflow", "Automation & Workflow"), icon: "bolt",
+    code: "L04", name: t("Automation & Workflow", "Tự động hóa & Quy trình"), icon: "bolt",
     desc: t("Turn every business workflow into an automated pipeline.", "Biến mọi business workflow thành automated pipeline."),
     products: [
       { name: "RAI n8n", role: t("Low-code workflow automation with embedded AI nodes.", "Tự động hóa quy trình low-code, AI node tích hợp."), status: "beta" },
@@ -54,7 +54,7 @@ export const labLayers: LabLayer[] = [
     ],
   },
   {
-    code: "L03", name: t("Data Platform", "Data Platform"), icon: "database",
+    code: "L03", name: t("Data Platform", "Nền tảng dữ liệu"), icon: "database",
     desc: t("Where data becomes knowledge — unified, real-time, AI-ready.", "Nơi data trở thành tri thức — hợp nhất, real-time, sẵn cho AI."),
     products: [
       { name: "RAI CDP", role: t("Customer Data Platform with AI identity resolution.", "Customer Data Platform, hợp nhất danh tính bằng AI."), status: "beta" },
@@ -62,7 +62,7 @@ export const labLayers: LabLayer[] = [
     ],
   },
   {
-    code: "L02", name: t("Agent Orchestration", "Agent Orchestration"), icon: "robot",
+    code: "L02", name: t("Agent Orchestration", "Điều phối Agent"), icon: "robot",
     desc: t("Production multi-agent framework — sequential, parallel, swarm.", "Multi-agent framework production — sequential, parallel, swarm."),
     products: [
       { name: "RAI Agent", role: t("Multi-agent framework: memory, tools, observability, guardrails.", "Framework multi-agent: memory, tools, observability, guardrails."), status: "production" },
@@ -70,7 +70,7 @@ export const labLayers: LabLayer[] = [
     ],
   },
   {
-    code: "L01", name: t("Foundation Models", "Foundation Models"), icon: "sparkles",
+    code: "L01", name: t("Foundation Models", "Mô hình nền tảng"), icon: "sparkles",
     desc: t("The core — Vietnamese LLMs and embeddings, enterprise-grade.", "Lớp lõi — LLM và embedding tiếng Việt, enterprise-grade."),
     products: [
       { name: "RAI GPT", role: t("Vietnamese LLM (7B/13B/70B), 128K context, beats GPT-4 +30% on VN tasks.", "LLM tiếng Việt (7B/13B/70B), context 128K, vượt GPT-4 +30% tác vụ VN."), status: "production" },
@@ -89,9 +89,9 @@ export const roadmapProducts: { name: string; role: T }[] = [
 /* ----------------------------- Principles ------------------------------- */
 export type Principle = { n: string; title: T; body: T };
 export const principles: Principle[] = [
-  { n: "01", title: t("Model-agnostic, infrastructure-opinionated", "Model-agnostic, infrastructure-opinionated"), body: t("Use best-in-class or self-built models, but we own orchestration, data, and security 100%.", "Dùng model tốt nhất hoặc tự xây, nhưng orchestration, data, security là lớp sở hữu 100%.") },
+  { n: "01", title: t("Model-agnostic, infrastructure-opinionated", "Trung lập về model, sở hữu hạ tầng"), body: t("Use best-in-class or self-built models, but we own orchestration, data, and security 100%.", "Dùng model tốt nhất hoặc tự xây, nhưng orchestration, data, security là lớp sở hữu 100%.") },
   { n: "02", title: t("Multi-tenant from day one", "Multi-tenant từ ngày đầu"), body: t("Every system serves N customers concurrently with enterprise-grade data isolation.", "Mọi hệ thống phục vụ N khách hàng đồng thời với data isolation chuẩn enterprise.") },
-  { n: "03", title: t("Vietnamese-first, regional-ready", "Vietnamese-first, regional-ready"), body: t("Optimized for Vietnamese + regional business context. Data residency per Decree 13/2023.", "Tối ưu tiếng Việt + ngữ cảnh khu vực. Data residency tuân thủ Nghị định 13/2023.") },
+  { n: "03", title: t("Vietnamese-first, regional-ready", "Ưu tiên tiếng Việt, sẵn sàng khu vực"), body: t("Optimized for Vietnamese + regional business context. Data residency per Decree 13/2023.", "Tối ưu tiếng Việt + ngữ cảnh khu vực. Data residency tuân thủ Nghị định 13/2023.") },
   { n: "04", title: t("Production-grade from v1", "Production-grade từ phiên bản đầu"), body: t("99.9% uptime SLA, multi-region failover, full observability. No demo-only features.", "99.9% uptime SLA, multi-region failover, quan trắc đầy đủ. Không có tính năng demo-only.") },
 ];
 
@@ -100,19 +100,19 @@ export type PriceTier = { name: string; price: T; blurb: T; featured?: boolean; 
 export const pricing: PriceTier[] = [
   {
     name: "Developer", price: t("Free", "Miễn phí"), blurb: t("For developers and early-stage startups.", "Cho developer, startup early-stage."),
-    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "10K tokens/mo" }, { k: t("Rate limit", "Rate limit"), v: "10 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Community" }, { k: t("SLA", "SLA"), v: "Best-effort" }],
+    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "10K tokens/mo" }, { k: t("Rate limit", "Giới hạn tần suất"), v: "10 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Community" }, { k: t("SLA", "SLA"), v: "Best-effort" }],
   },
   {
     name: "Starter", price: t("from $99/mo", "từ $99/tháng"), blurb: t("Small teams, SMEs, portfolio companies (free first 24mo).", "Team nhỏ, SME, portfolio (free 24 tháng đầu)."),
-    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "500K tokens/mo" }, { k: t("Rate limit", "Rate limit"), v: "100 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Email · 24h" }, { k: t("SLA", "SLA"), v: "99.5%" }],
+    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "500K tokens/mo" }, { k: t("Rate limit", "Giới hạn tần suất"), v: "100 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Email · 24h" }, { k: t("SLA", "SLA"), v: "99.5%" }],
   },
   {
     name: "Business", price: t("from $999/mo", "từ $999/tháng"), blurb: t("Mid-market, agencies, dev shops.", "Mid-market, agency, dev shop."), featured: true,
-    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "10M tokens/mo" }, { k: t("Rate limit", "Rate limit"), v: "1,000 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Slack · 4h" }, { k: t("SLA", "SLA"), v: "99.9% · CSM" }],
+    specs: [{ k: t("RAI GPT", "RAI GPT"), v: "10M tokens/mo" }, { k: t("Rate limit", "Giới hạn tần suất"), v: "1,000 req/min" }, { k: t("Support", "Hỗ trợ"), v: "Slack · 4h" }, { k: t("SLA", "SLA"), v: "99.9% · CSM" }],
   },
   {
     name: "Enterprise", price: t("Custom · from $50K/yr", "Custom · từ $50K/năm"), blurb: t("Large enterprises, banks, government.", "Doanh nghiệp lớn, ngân hàng, chính phủ."),
-    specs: [{ k: t("Volume", "Volume"), v: "Unlimited" }, { k: t("Deployment", "Triển khai"), v: "Dedicated / on-prem" }, { k: t("Support", "Hỗ trợ"), v: "24/7 · 1h" }, { k: t("SLA", "SLA"), v: "99.95% + credits" }],
+    specs: [{ k: t("Volume", "Lưu lượng"), v: "Unlimited" }, { k: t("Deployment", "Triển khai"), v: "Dedicated / on-prem" }, { k: t("Support", "Hỗ trợ"), v: "24/7 · 1h" }, { k: t("SLA", "SLA"), v: "99.95% + credits" }],
   },
 ];
 
