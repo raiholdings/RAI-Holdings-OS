@@ -36,6 +36,16 @@ export function createVenture(idea: string): Venture {
   set({ ventures: [v, ...state.ventures] });
   return v;
 }
+/** Save a venture assembled from the real 8-agent pipeline (overrides mock defaults). */
+export function createVentureFromGraph(idea: string, parts: Partial<Venture>): Venture {
+  const id = `v-${state.seq + 1}-${++_idc}`;
+  const base = generateVenture(state.currentOrgId, idea.trim(), id, Date.now());
+  const v: Venture = { ...base, ...parts, id, orgId: state.currentOrgId, ideaPrompt: idea.trim() };
+  if (parts.opportunities?.length) v.confidence = parts.opportunities[0].confidenceScore;
+  set({ ventures: [v, ...state.ventures] });
+  return v;
+}
+
 export function setVentureStatus(id: string, status: VentureStatus) {
   set({ ventures: state.ventures.map((v) => (v.id === id ? { ...v, status } : v)) });
 }

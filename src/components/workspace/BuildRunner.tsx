@@ -7,9 +7,13 @@ import { Icon } from "@/components/ui/Icon";
 import { buttonClass } from "@/components/ui/Button";
 import { useLang, t } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
-import { engines } from "@/lib/workspace";
-import { RaiLLMs } from "@/lib/llms-client";
-import { hydrateStore, createVenture } from "@/lib/workspace-store";
+import { engines, type EngineKey, type Venture } from "@/lib/workspace";
+import { hydrateStore, createVentureFromGraph } from "@/lib/workspace-store";
+
+const FIELD: Record<EngineKey, keyof Venture> = {
+  observe: "signals", knowledge: "knowledge", opportunity: "opportunities", design: "blueprint",
+  simulation: "simulation", experiment: "experiments", revenue: "revenue", learning: "learning",
+};
 
 const WRAP = "mx-auto max-w-[1180px] px-5 sm:px-8";
 
@@ -33,20 +37,25 @@ export function BuildRunner({ idea }: { idea: string | null }) {
     started.current = true;
 
     (async () => {
-      const client = new RaiLLMs();
+      let ctx: Record<string, unknown> = {};
+      const parts: Partial<Venture> = {};
       for (let i = 0; i < engines.length; i++) {
         setStatuses((s) => s.map((v, j) => (j === i ? "running" : v)));
         try {
-          // Live feel — mock gateway call (ignore failures; cosmetic only).
-          await client.chat({
-            model: "anthropic/claude-sonnet-4.6",
-            messages: [{ role: "user", content: `${engines[i].label.en} step for venture idea: ${idea}` }],
+          const res = await fetch("/api/workspace/v0/run", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ engine: engines[i].key, idea, context: ctx }),
           });
-        } catch { /* mock — ignore */ }
-        await sleep(500);
+          const j = await res.json();
+          if (j?.ctx) ctx = j.ctx;
+          if (j?.data != null) (parts as Record<string, unknown>)[FIELD[engines[i].key]] = j.data;
+        } catch { await sleep(300); /* step failed → keep mock default for this field */ }
         setStatuses((s) => s.map((v, j) => (j === i ? "done" : v)));
       }
-      const venture = createVenture(idea);
+      if (typeof ctx.sector === "string") parts.sector = ctx.sector;
+      if (typeof ctx.region === "string") parts.region = ctx.region;
+      const venture = createVentureFromGraph(idea, parts);
       router.push("/workspace/ventures/" + venture.id);
     })();
   }, [idea, router]);

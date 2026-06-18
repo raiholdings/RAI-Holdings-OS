@@ -58,7 +58,7 @@ export const sampleIdeas: T[] = [
 
 // ---- deterministic mock generation ----------------------------------------
 function hash(s: string): number { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
-function pick<X>(arr: X[], seed: number): X { return arr[seed % arr.length]; }
+function pick<X>(arr: X[], seed: number): X { return arr[Math.abs(seed) % arr.length]; }
 
 const SECTORS = ["Real estate", "Education", "Construction", "Fintech", "Retail", "Logistics", "Healthcare", "Technology"];
 const REGIONS = ["Hà Nội", "TP. Hồ Chí Minh", "Thanh Hóa", "Đà Nẵng", "Bình Dương"];
