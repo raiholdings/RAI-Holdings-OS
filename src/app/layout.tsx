@@ -40,6 +40,8 @@ export const metadata: Metadata = {
     siteName: site.name,
   },
   twitter: { card: "summary_large_image", title: site.name, description: site.description },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: "RAI Holdings", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
