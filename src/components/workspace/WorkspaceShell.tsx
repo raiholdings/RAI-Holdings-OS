@@ -41,7 +41,9 @@ function isActive(pathname: string, href: string) {
 
 const fmtVnd = (n: number) => n.toLocaleString("vi-VN") + "₫";
 
-export function WorkspaceShell({ children }: { children: React.ReactNode }) {
+type PublicUser = { name: string; username: string; avatar: string };
+
+export function WorkspaceShell({ children, user }: { children: React.ReactNode; user?: PublicUser }) {
   const { tr, lang, setLang } = useLang();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -52,6 +54,21 @@ export function WorkspaceShell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     hydrateStore();
   }, []);
+
+  async function signOut() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/";
+  }
+
+  const UserChip = user ? (
+    <span className="flex items-center gap-2 rounded-[var(--radius-md)] border border-border bg-surface px-2 py-1">
+      {user.avatar
+        ? <img src={user.avatar} alt="" className="size-6 rounded-full object-cover" />
+        : <span className="grid size-6 place-items-center rounded-full bg-accent/10 text-[0.6rem] font-medium text-accent">{(user.name || "U").slice(0, 1).toUpperCase()}</span>}
+      <span className="hidden max-w-[120px] truncate text-[0.82rem] text-text sm:inline">{user.name}</span>
+      <button onClick={signOut} aria-label={tr(t("Sign out", "Đăng xuất"))} className="text-text-2 hover:text-err"><Icon name="x" size={14} /></button>
+    </span>
+  ) : null;
 
   const OrgSwitcher = (
     <select
@@ -160,6 +177,7 @@ export function WorkspaceShell({ children }: { children: React.ReactNode }) {
             {OrgSwitcher}
             <span className="hidden sm:inline-flex">{CreditsChip}</span>
             {LangToggle}
+            {UserChip}
           </div>
         </header>
 

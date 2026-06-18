@@ -53,8 +53,8 @@ export function Navbar() {
 
         <div className="flex items-center gap-2">
           <LangToggle />
-          <a href="#cta-final" className={cn(buttonClass("outline", "sm"), "hidden sm:inline-flex")}>{tr(t("Sign in", "Đăng nhập"))}</a>
-          <a href="#cta-final" className={buttonClass("primary", "sm")}>{tr(t("Apply", "Đăng ký"))}</a>
+          <a href="/login" className={cn(buttonClass("outline", "sm"), "hidden sm:inline-flex")}>{tr(t("Sign in", "Đăng nhập"))}</a>
+          <a href="/login?tab=register" className={buttonClass("primary", "sm")}>{tr(t("Sign up", "Đăng ký"))}</a>
           <button onClick={() => setOpen((v) => !v)} aria-label="Menu" aria-expanded={open} className="grid size-9 place-items-center rounded-[var(--radius-md)] border border-border text-text lg:hidden">
             <Icon name={open ? "x" : "menu"} size={18} />
           </button>
