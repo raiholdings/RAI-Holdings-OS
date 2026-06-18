@@ -1,0 +1,9 @@
+# RAI LLMs Gateway — Caddy reverse proxy with automatic HTTPS.
+# Install Caddy, put this at /etc/caddy/Caddyfile (edit the domain), then:
+#   sudo systemctl reload caddy
+# DNS: an A record llms.raiholdings.vn → your VPS IP (DNS-only) must exist first.
+
+llms.raiholdings.vn {
+	encode gzip
+	reverse_proxy localhost:8080
+}
