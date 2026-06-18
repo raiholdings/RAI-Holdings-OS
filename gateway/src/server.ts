@@ -8,6 +8,8 @@ import creditsRoute from "./routes/credits.js";
 import keysRoute from "./routes/keys.js";
 import generationRoute from "./routes/generation.js";
 import providersRoute from "./routes/providers.js";
+import billingRoute from "./routes/billing.js";
+import adminRoute from "./routes/admin.js";
 
 const app = Fastify({ logger: true, bodyLimit: 8 * 1024 * 1024 });
 
@@ -32,6 +34,8 @@ await app.register(async (v1) => {
   await v1.register(keysRoute);
   await v1.register(generationRoute);
   await v1.register(providersRoute);
+  await v1.register(billingRoute);
+  await v1.register(adminRoute);
 }, { prefix: "/api/v1" });
 
 app.listen({ port: config.port, host: "0.0.0.0" })

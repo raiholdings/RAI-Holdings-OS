@@ -26,4 +26,17 @@ export const config = {
     google: env.GOOGLE_API_KEY || "",
     deepseek: env.DEEPSEEK_API_KEY || "",
   } as Record<string, string>,
+  publicBaseUrl: env.PUBLIC_BASE_URL || "http://localhost:8080",
+  vatPercent: parseFloat(env.VAT_PERCENT || "10"),
+  vnpay: {
+    tmnCode: env.VNP_TMN_CODE || "",
+    hashSecret: env.VNP_HASH_SECRET || "",
+    url: env.VNP_URL || "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+  },
+  momo: {
+    partnerCode: env.MOMO_PARTNER_CODE || "",
+    accessKey: env.MOMO_ACCESS_KEY || "",
+    secretKey: env.MOMO_SECRET_KEY || "",
+    endpoint: env.MOMO_ENDPOINT || "https://test-payment.momo.vn/v2/gateway/api/create",
+  },
 };

@@ -184,3 +184,32 @@ on conflict (slug) do nothing;
 insert into markups (scope, target, percent) values
   ('global', null, 20.00)
 on conflict (scope, coalesce(target, '')) do nothing;
+
+-- =====================================================================
+-- Payments (VND top-ups via VNPay/MoMo) + VAT invoices
+-- =====================================================================
+create table if not exists payment_intents (
+  id           uuid primary key default gen_random_uuid(),
+  user_id      uuid not null references users(id) on delete cascade,
+  wallet_id    uuid references wallets(id) on delete set null,
+  method       text not null,                       -- vnpay|momo
+  amount_vnd   numeric(18,2) not null,
+  status       text not null default 'pending',     -- pending|paid|failed
+  ref          text unique not null,                -- our order ref (vnp_TxnRef / orderId)
+  provider_ref text,                                -- gateway transaction id
+  created_at   timestamptz not null default now(),
+  paid_at      timestamptz
+);
+create index if not exists idx_payment_intents_user on payment_intents(user_id);
+
+create table if not exists invoices (
+  id                 uuid primary key default gen_random_uuid(),
+  user_id            uuid not null references users(id) on delete cascade,
+  payment_intent_id  uuid references payment_intents(id) on delete set null,
+  number             text unique,                   -- invoice serial
+  amount_vnd         numeric(18,2) not null,        -- gross (incl VAT)
+  vat_percent        numeric(5,2) not null default 10,
+  status             text not null default 'issued',-- issued|sent|void
+  created_at         timestamptz not null default now()
+);
+create index if not exists idx_invoices_user on invoices(user_id);
