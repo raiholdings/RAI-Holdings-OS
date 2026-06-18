@@ -101,6 +101,18 @@ export function deleteVenture(id: string) {
 }
 export function switchOrg(orgId: string) { if (state.orgs.some((o) => o.id === orgId)) set({ currentOrgId: orgId }); }
 
+/* ---- wallet / usage ---- */
+/** Adjust the current org's balance locally (optimistic; used in local mode and before a remote refresh). */
+export function creditLocal(deltaVnd: number) {
+  set({ orgs: state.orgs.map((o) => (o.id === state.currentOrgId ? { ...o, balanceVnd: Math.max(0, o.balanceVnd + deltaVnd) } : o)) });
+}
+/** Record metered usage: optimistic local debit + write-through to the usage API. */
+export function recordUsage(e: { product: string; model?: string; units?: number; costVnd?: number }) {
+  const cost = Math.max(0, Math.trunc(e.costVnd ?? 0));
+  if (cost > 0) creditLocal(-cost);
+  wt("usage", { method: "POST", body: JSON.stringify({ orgId: state.currentOrgId, ...e }) });
+}
+
 /* ---- hooks (stable slices; filter in components) ---- */
 function useStore<T>(selector: (s: State) => T): T {
   return useSyncExternalStore(

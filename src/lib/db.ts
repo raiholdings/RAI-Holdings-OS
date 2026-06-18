@@ -86,3 +86,9 @@ export async function dbUpsert<T = Row>(table: string, rows: Row | Row[], onConf
 export async function dbDelete(table: string, query: string): Promise<void> {
   await rest(`${table}?${query}`, { method: "DELETE", write: true });
 }
+
+/** Call a Postgres function via PostgREST RPC; returns its result. */
+export async function dbRpc<T = unknown>(fn: string, args: Row): Promise<T> {
+  const res = await rest(`rpc/${fn}`, { method: "POST", write: true, body: JSON.stringify(args) });
+  return (await res.json()) as T;
+}
