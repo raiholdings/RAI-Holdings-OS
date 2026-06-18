@@ -28,10 +28,10 @@ const workspaceNav: NavGroup[] = [
   {
     label: t("RAI Solutions", "Giải pháp RAI"),
     items: [
-      { href: "/marketplace", label: t("Marketplace", "Chợ ứng dụng"), icon: "cart" },
-      { href: "/code", label: t("Code", "Mã nguồn"), icon: "cpu" },
-      { href: "/apps", label: t("Apps", "Ứng dụng"), icon: "box" },
-      { href: "/mcp", label: t("MCP", "MCP"), icon: "server" },
+      { href: "/workspace/marketplace", label: t("Marketplace", "Chợ ứng dụng"), icon: "cart" },
+      { href: "/workspace/code", label: t("Code", "Mã nguồn"), icon: "cpu" },
+      { href: "/workspace/apps", label: t("Apps", "Ứng dụng"), icon: "box" },
+      { href: "/workspace/mcp", label: t("MCP", "MCP"), icon: "server" },
     ],
   },
 ];

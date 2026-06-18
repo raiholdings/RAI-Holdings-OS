@@ -9,6 +9,7 @@ import { useLang, t, type T } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 import { engines, sampleIdeas, type Venture } from "@/lib/workspace";
 import { useAllVentures, useCurrentOrgId } from "@/lib/workspace-store";
+import { raiAppGroups, type RaiAppItem } from "@/lib/rai-apps";
 
 const WRAP = "mx-auto max-w-[1180px] px-5 sm:px-8";
 
@@ -161,6 +162,45 @@ export function VentureBuilder() {
           </div>
         )}
       </div>
+
+      {/* RAI platforms — Google-Marketplace-style grid */}
+      <div className="mt-12">
+        <h2 className="text-[1.1rem] font-medium tracking-tight text-text">{tr(t("RAI platforms", "Nền tảng RAI"))}</h2>
+        <p className="mt-1 text-[0.88rem] text-text-2">{tr(t("Every RAI app, in one place.", "Tất cả ứng dụng RAI, ở một nơi."))}</p>
+        {raiAppGroups.map((g) => (
+          <div key={g.label.en} className="mt-6">
+            <div className="label mb-2 text-text-2">{tr(g.label)}</div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {g.items.map((app) => <AppCard key={tr(app.name) + app.href} app={app} />)}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
+}
+
+function AppCard({ app }: { app: RaiAppItem }) {
+  const { tr } = useLang();
+  const body = (
+    <div className="group flex h-full flex-col border border-border bg-surface p-4 transition-colors hover:border-border-strong">
+      <div className="flex items-center gap-3">
+        <span className="grid size-11 shrink-0 place-items-center rounded-[var(--radius-md)] text-white" style={{ background: app.color }}>
+          <Icon name={app.icon} size={22} />
+        </span>
+        <div className="min-w-0">
+          <div className="truncate text-[0.95rem] font-medium text-text">{tr(app.name)}</div>
+          <div className="text-[0.7rem] text-text-2">RAI{app.external ? " · " + tr(t("external", "ngoài")) : ""}</div>
+        </div>
+      </div>
+      <p className="mt-2 line-clamp-2 flex-1 text-[0.82rem] text-text-2">{tr(app.desc)}</p>
+      <div className="mt-3 flex items-center gap-1 text-[0.8rem] font-medium text-accent">
+        {app.external ? tr(t("Open", "Mở")) : tr(t("Open", "Mở"))}
+        <Icon name="arrow-up-right" size={14} />
+      </div>
+    </div>
+  );
+  return app.external
+    ? <a href={app.href} target="_blank" rel="noreferrer">{body}</a>
+    : <Link href={app.href}>{body}</Link>;
 }
