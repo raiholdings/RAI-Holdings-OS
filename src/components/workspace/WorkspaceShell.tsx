@@ -8,6 +8,7 @@ import { Icon } from "@/components/ui/Icon";
 import { useLang, t, type T } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 import { hydrateStore, useOrgs, useCurrentOrg, switchOrg } from "@/lib/workspace-store";
+import { AppLauncher } from "@/components/workspace/AppLauncher";
 
 type NavItem = { href: string; label: T; icon: string };
 type NavGroup = { label: T; items: NavItem[] };
@@ -176,6 +177,7 @@ export function WorkspaceShell({ children, user }: { children: React.ReactNode; 
           <div className="flex items-center gap-2 sm:gap-3">
             {OrgSwitcher}
             <span className="hidden sm:inline-flex">{CreditsChip}</span>
+            <AppLauncher />
             {LangToggle}
             {UserChip}
           </div>
