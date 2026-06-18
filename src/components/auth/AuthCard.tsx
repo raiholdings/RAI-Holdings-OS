@@ -10,12 +10,12 @@ import { cn } from "@/lib/cn";
 
 const field = "w-full rounded-[var(--radius-md)] border border-border bg-bg px-3 py-2.5 text-[0.92rem] text-text outline-none focus:border-border-strong";
 
-export function AuthCard({ initialTab = "login", next = "/workspace" }: { initialTab?: "login" | "register"; next?: string }) {
+export function AuthCard({ initialTab = "login", next = "/workspace", errorMsg = "" }: { initialTab?: "login" | "register"; next?: string; errorMsg?: string }) {
   const { tr, lang, setLang } = useLang();
   const router = useRouter();
   const [tab, setTab] = useState<"login" | "register">(initialTab);
   const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
+  const [err, setErr] = useState(errorMsg);
   const [f, setF] = useState({ username: "", email: "", password: "", confirm_password: "" });
   const upd = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF((s) => ({ ...s, [k]: e.target.value }));
 
@@ -56,10 +56,14 @@ export function AuthCard({ initialTab = "login", next = "/workspace" }: { initia
             ))}
           </div>
 
-          <p className="mt-4 mb-4 flex items-center gap-2 text-[0.84rem] text-text-2">
-            <Icon name="world" size={15} className="text-accent" />
-            {tr(t("Connect with your RAI Social account", "Kết nối bằng tài khoản RAI Social"))}
-          </p>
+          {/* One-tap OAuth — no password typed on our site */}
+          <a href={`/api/auth/raisocial/start?next=${encodeURIComponent(next)}`} className={`${buttonClass("primary", "md")} mt-4 w-full`}>
+            <Icon name="world" size={16} /> {tr(t("Continue with RAI Social", "Đăng nhập với RAI Social"))}
+          </a>
+
+          <div className="my-4 flex items-center gap-3 text-[0.74rem] text-text-2">
+            <span className="h-px flex-1 bg-border" />{tr(t("or with username", "hoặc bằng tài khoản"))}<span className="h-px flex-1 bg-border" />
+          </div>
 
           <form onSubmit={submit} className="space-y-3">
             <input value={f.username} onChange={upd("username")} placeholder={tr(t("Username", "Tên đăng nhập"))} className={field} autoFocus autoComplete="username" />

@@ -32,6 +32,13 @@ const WORKSPACE_HOST = "workspace.raiholdings.vn";
 export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") ?? "").split(":")[0].replace(/^www\./, "");
 
+  // RAI Social OAuth lands on the domain root with ?code=… → hand to the callback.
+  if (req.nextUrl.pathname === "/" && req.nextUrl.searchParams.get("code")) {
+    const cb = req.nextUrl.clone();
+    cb.pathname = "/api/auth/raisocial/callback";
+    return NextResponse.redirect(cb);
+  }
+
   // OS Console — app.raiholdings.vn/* → /app/*
   if (host === CONSOLE_HOST) {
     const url = req.nextUrl.clone();
