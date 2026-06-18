@@ -12,15 +12,18 @@ import {
   type Model, type ProviderKey,
 } from "@/lib/llms";
 import { Playground } from "@/components/llms/Playground";
+import { Dashboard } from "@/components/llms/Dashboard";
 
 const WRAP = "mx-auto max-w-[1180px] px-5 sm:px-8";
 
-type TabId = "models" | "chat" | "rankings" | "pricing" | "docs";
+type TabId = "models" | "chat" | "rankings" | "providers" | "pricing" | "dashboard" | "docs";
 const TABS: { id: TabId; label: T; icon: string }[] = [
   { id: "models", label: t("Models", "Mô hình"), icon: "cpu" },
   { id: "chat", label: t("Chat", "Chat"), icon: "message" },
   { id: "rankings", label: t("Rankings", "Xếp hạng"), icon: "trending-up" },
+  { id: "providers", label: t("Providers", "Nhà cung cấp"), icon: "server" },
   { id: "pricing", label: t("Pricing", "Bảng giá"), icon: "receipt" },
+  { id: "dashboard", label: t("Dashboard", "Bảng điều khiển"), icon: "layout" },
   { id: "docs", label: t("Docs", "Tài liệu"), icon: "file-text" },
 ];
 
@@ -50,7 +53,9 @@ export function LLMsView() {
         {active === "models" && <ModelsTab />}
         {active === "chat" && <Playground />}
         {active === "rankings" && <RankingsTab />}
+        {active === "providers" && <ProvidersTab />}
         {active === "pricing" && <PricingTab />}
+        {active === "dashboard" && <Dashboard />}
         {active === "docs" && <DocsTab />}
       </main>
     </div>
@@ -227,6 +232,31 @@ function RankingsTab() {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+// ---- Providers tab --------------------------------------------------------
+function ProvidersTab() {
+  const { tr } = useLang();
+  return (
+    <div>
+      <h2 className="text-[1.3rem] font-medium tracking-tight text-text">{tr(t("Providers", "Nhà cung cấp"))}</h2>
+      <p className="mt-1 mb-5 text-[0.9rem] text-text-2">{tr(t("Upstream providers RAI LLMs routes to, with their data policies.", "Các nhà cung cấp thượng nguồn RAI LLMs định tuyến tới, kèm chính sách dữ liệu."))}</p>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {providers.map((p) => (
+          <div key={p.key} className="border border-border bg-surface p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="grid size-8 place-items-center rounded-[var(--radius-md)] bg-accent/10 text-[0.62rem] font-medium uppercase text-accent">{p.key.slice(0, 2)}</span>
+                <span className="text-[0.96rem] font-medium text-text">{p.name}</span>
+              </div>
+              <span className="mono text-[0.7rem] text-text-2">{p.models} {tr(t("models", "mô hình"))}</span>
+            </div>
+            <p className="mt-2 text-[0.82rem] text-text-2"><span className="label mr-1 text-text-2">{tr(t("Data", "Dữ liệu"))}</span>{tr(p.dataPolicy)}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
