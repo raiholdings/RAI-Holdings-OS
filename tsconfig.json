@@ -39,6 +39,7 @@
     "node_modules",
     "legacy",
     "admin",
-    "infra"
+    "infra",
+    "gateway"
   ]
 }

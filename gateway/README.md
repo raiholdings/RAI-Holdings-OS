@@ -1,0 +1,107 @@
+# RAI LLMs Gateway
+
+Cổng LLM hợp nhất, **tương thích OpenAI** ("OpenRouter của RAI"). Một API key, một endpoint, truy cập nhiều mô hình từ nhiều nhà cung cấp — có định tuyến, fallback, đo token + chi phí, và trừ credits (VND).
+
+- Domain production: `https://llms.raiholdings.vn`
+- Base URL: `https://llms.raiholdings.vn/api/v1`
+- Drop-in OpenAI: chỉ cần đổi `baseURL` + `apiKey`, code OpenAI SDK chạy ngay.
+- Self-hosted: backend **bắt buộc tự host** trên VPS (xem `SETUP.md`).
+
+> Stack: Node.js + TypeScript (ESM) · Fastify · PostgreSQL · Redis · Docker.
+
+---
+
+## Endpoints đã triển khai
+
+| Method | Path | Mô tả |
+|--------|------|-------|
+| `POST` | `/api/v1/chat/completions` | Chat completions, **streaming (SSE)** + non-streaming. Kết thúc bằng `[DONE]`, `usage` ở chunk cuối kèm `cost`. |
+| `GET`  | `/api/v1/models` | Catalog toàn bộ mô hình (id `author/slug`, pricing, context, supported params). |
+| `GET`  | `/api/v1/credits` | Số dư credits (VND) còn lại của key/tài khoản. |
+| `GET`  | `/api/v1/generation?id=<gen_id>` | Thống kê chi tiết (token, cost, latency) của 1 request đã xong. |
+| `GET`/`POST`/`GET`/`PATCH`/`DELETE` | `/api/v1/keys` … `/api/v1/keys/{hash}` | Quản lý API key: tạo/liệt kê/chi tiết/cập nhật (limit, disable)/thu hồi. |
+
+---
+
+## Local dev
+
+```bash
+npm install
+cp .env.example .env      # điền DATABASE_URL, ENCRYPTION_KEY, ADMIN_TOKEN, upstream keys
+npm run migrate           # tạo bảng + seed providers/markup (cần Postgres chạy)
+npm run dev               # tsx watch src/server.ts → http://localhost:8080
+```
+
+Scripts (`package.json`):
+
+| Script | Lệnh |
+|--------|------|
+| `dev` | `tsx watch src/server.ts` |
+| `build` | `tsc` → `dist/` |
+| `start` | `node dist/server.js` |
+| `migrate` | `node --import tsx scripts/migrate.ts` (áp `sql/schema.sql` lên `$DATABASE_URL`) |
+| `typecheck` | `tsc --noEmit` |
+
+Cần Postgres (+ Redis tùy chọn) khi chạy local — dễ nhất là `docker compose up -d db redis`.
+
+---
+
+## Biến môi trường (tóm tắt)
+
+| Biến | Mô tả |
+|------|-------|
+| `PORT` | Cổng HTTP (mặc định `8080`). |
+| `DATABASE_URL` | Connection string Postgres. |
+| `REDIS_URL` | Redis cho rate-limit/cache (bỏ trống = degrade gracefully). |
+| `ENCRYPTION_KEY` | 32 byte hex, AES-256-GCM mã hóa upstream/BYOK keys. |
+| `ADMIN_TOKEN` | Bearer cho endpoint `/admin`. |
+| `FX_USD_VND` | Tỷ giá quy đổi credits (credits lưu theo VND). |
+| `DEFAULT_MARKUP_PERCENT` | Markup nền tảng mặc định. |
+| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GOOGLE_API_KEY` / `DEEPSEEK_API_KEY` | Upstream keys (bootstrap dev). |
+
+Chi tiết đầy đủ: `.env.example`. Triển khai VPS: `SETUP.md`.
+
+---
+
+## Ví dụ gọi API
+
+```bash
+curl https://llms.raiholdings.vn/api/v1/chat/completions \
+  -H "Authorization: Bearer <RAI_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "anthropic/claude-sonnet-4.6",
+    "messages": [{"role": "user", "content": "Chào RAI LLMs!"}]
+  }'
+```
+
+Streaming: thêm `"stream": true` — server trả SSE (`chat.completion.chunk`), kết thúc bằng `data: [DONE]`.
+
+Dùng OpenAI SDK (drop-in):
+
+```ts
+import OpenAI from "openai";
+const client = new OpenAI({
+  baseURL: "https://llms.raiholdings.vn/api/v1",
+  apiKey: process.env.RAI_API_KEY,
+});
+```
+
+---
+
+## Trạng thái triển khai (Phases)
+
+| Phase | Trạng thái |
+|-------|-----------|
+| **P3 — Gateway core** | ✅ Đã triển khai: router + fallback, adapters (OpenAI/Anthropic/Google/DeepSeek), usage meter, logging. |
+| **P4 — Credits & wallet** | ✅ Đã triển khai: credits/ví VND, transactions, per-key budget + rate limit, activity log. |
+| Payment gateway (VNPay/MoMo) + hóa đơn VAT | 🚧 TODO |
+| **P5 — Nâng cao** | 🚧 TODO: BYOK UI đầy đủ, ZDR, presets, structured outputs, plugins (web search/file-parser), provider preferences, admin markup UI. |
+
+---
+
+## Liên quan
+
+- `sql/schema.sql` — data model (spec §6), idempotent + seed.
+- `scripts/migrate.ts` — migration runner.
+- `SETUP.md` — runbook triển khai VPS + reverse proxy + bảo mật.
