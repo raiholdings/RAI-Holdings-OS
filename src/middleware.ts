@@ -32,8 +32,12 @@ const WORKSPACE_HOST = "workspace.raiholdings.vn";
 export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") ?? "").split(":")[0].replace(/^www\./, "");
 
-  // RAI Social OAuth lands on the domain root with ?code=… → hand to the callback.
-  if (req.nextUrl.pathname === "/" && req.nextUrl.searchParams.get("code")) {
+  // RAI Social OAuth returns with ?code=… (callback URL is the default wo_login.php,
+  // or the domain root) → hand it to our callback handler.
+  if (
+    (req.nextUrl.pathname === "/" || req.nextUrl.pathname === "/wo_login.php") &&
+    req.nextUrl.searchParams.get("code")
+  ) {
     const cb = req.nextUrl.clone();
     cb.pathname = "/api/auth/raisocial/callback";
     return NextResponse.redirect(cb);
