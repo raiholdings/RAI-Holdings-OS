@@ -33,6 +33,7 @@ export const navGroups: NavGroup[] = [
       { label: t("RAI Apps", "RAI Apps"), href: "/apps" },
       { label: t("MCP Registry", "MCP Registry"), href: "/mcp" },
       { label: t("Platform", "Platform"), href: "/platform" },
+      { label: t("Big Data", "Big Data"), href: "/bigdata" },
     ],
   },
   {
@@ -276,7 +277,7 @@ export const footerCols: FooterCol[] = [
     { label: t("Apply", "Đăng ký"), href: "#cta-final" }, { label: t("Contact", "Liên hệ"), href: "#" }, { label: t("Agreements", "Hợp đồng"), href: "#" }, { label: t("FAQ", "Hỏi đáp"), href: "#faq" },
   ]},
   { title: t("Resources", "Tài nguyên"), links: [
-    { label: t("Marketplace", "Marketplace"), href: "/marketplace" }, { label: t("Code", "Code"), href: "/code" }, { label: t("Apps", "Ứng dụng"), href: "/apps" }, { label: t("MCP Registry", "MCP Registry"), href: "/mcp" },
+    { label: t("Marketplace", "Marketplace"), href: "/marketplace" }, { label: t("Code", "Code"), href: "/code" }, { label: t("Apps", "Ứng dụng"), href: "/apps" }, { label: t("MCP Registry", "MCP Registry"), href: "/mcp" }, { label: t("Big Data", "Big Data"), href: "/bigdata" },
   ]},
   { title: t("Innovation", "Đổi mới"), links: [
     { label: t("Launch a chapter", "Mở chi nhánh"), href: "#" }, { label: t("Venture fund", "Quỹ đầu tư"), href: "#" }, { label: t("University partners", "Đối tác đại học"), href: "#" }, { label: t("OS Console", "OS Console"), href: "/app" },
