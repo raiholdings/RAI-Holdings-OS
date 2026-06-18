@@ -17,6 +17,9 @@
     "RAISOCIAL_BASE": "https://raisocial.vn/api",
     "RAISOCIAL_SITE": "https://raisocial.vn",
     "RAISOCIAL_APP_ID": "92b9ed98f5fc8b545cf7",
-    "RAICRM_BASE": "https://raicrm.vn/api"
+    "RAICRM_BASE": "https://raicrm.vn/api",
+    "SUPABASE_URL": "https://api.raiholdings.vn",
+    "RAI_LLMS_BASE": "https://llms.raiholdings.vn/api/v1",
+    "RAI_LLMS_MODEL": "anthropic/claude-opus-4.8"
   }
 }
