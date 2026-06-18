@@ -6,6 +6,7 @@ import { resolveChain } from "../router.js";
 import { getAdapter } from "../adapters/base.js";
 import { getUpstreamKey } from "../upstream.js";
 import { computeCost } from "../usage.js";
+import { applyPlugins } from "../plugins/index.js";
 import { GatewayError, type ChatRequest, type ChatMessage, type NormalizedRequest, type ProviderUsage } from "../types.js";
 
 const genId = () => "gen-" + randomBytes(12).toString("base64url");
@@ -33,6 +34,7 @@ export default async function chatRoute(app: FastifyInstance) {
     await preCheck(principal);
     const body = req.body as ChatRequest;
     const { n, modelIds } = normalize(body);
+    await applyPlugins(n, body.plugins); // web-search / file-parser → augment context
     const chain = resolveChain(modelIds, body.provider);
     const gid = genId();
     const created = Math.floor(Date.now() / 1000);

@@ -41,7 +41,11 @@ export type ChatRequest = {
   response_format?: { type: "json_object" } | { type: "json_schema"; json_schema: { name: string; strict?: boolean; schema: object } };
   provider?: ProviderPreferences;
   user?: string;
+  plugins?: Plugin[];
 };
+
+// Gateway plugins (web search, file parser, …). `id` selects the plugin.
+export type Plugin = { id: string; [k: string]: unknown };
 
 // Provider-agnostic request the adapters consume.
 export type NormalizedRequest = {

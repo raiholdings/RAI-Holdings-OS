@@ -72,8 +72,13 @@ Cần Postgres (+ Redis tùy chọn) khi chạy local — dễ nhất là `docke
 | `VAT_PERCENT` | % VAT trên hóa đơn (mặc định 10). |
 | `VNP_TMN_CODE` / `VNP_HASH_SECRET` / `VNP_URL` | Cấu hình VNPay (merchant). |
 | `MOMO_PARTNER_CODE` / `MOMO_ACCESS_KEY` / `MOMO_SECRET_KEY` / `MOMO_ENDPOINT` | Cấu hình MoMo. |
+| `SEARCH_PROVIDER` / `SEARCH_API_KEY` | Plugin web-search (Tavily). Bỏ trống = plugin no-op. |
 
 Chi tiết đầy đủ: `.env.example`. Triển khai VPS: `SETUP.md`.
+
+> **Plugins**: gửi `"plugins":[{"id":"web"}]` (web-search) hoặc `{"id":"file-parser","urls":["https://…"]}` trong body `/chat/completions` — gateway sẽ nạp ngữ cảnh (kết quả tìm kiếm / nội dung tài liệu) vào system trước khi gọi model.
+>
+> **Frontend admin proxy**: app Next gọi `/admin/*` của gateway qua route server `/api/llms-admin/*` (giấu token). Đặt `RAI_LLMS_BASE` + `RAI_LLMS_ADMIN_TOKEN` trong env của Worker `raiholdings`.
 
 ---
 
@@ -110,7 +115,7 @@ const client = new OpenAI({
 | **P3 — Gateway core** | ✅ Đã triển khai: router + fallback, adapters (OpenAI/Anthropic/Google/DeepSeek), usage meter, logging. |
 | **P4 — Credits & wallet** | ✅ Đã triển khai: credits/ví VND, transactions, per-key budget + rate limit, activity log. |
 | **P4 — Thanh toán VNPay/MoMo + VAT** | ✅ Lõi đã triển khai: topup intent → payUrl, return/IPN xác thực HMAC → cộng credit (idempotent) + ghi hóa đơn VAT. ⚙️ Cần điền merchant creds (sandbox/live) + nối nhà cung cấp **hóa đơn điện tử** để phát hành thật. |
-| **P5 — Admin & ZDR/BYOK** | ✅ Admin API: markup CRUD, nạp upstream credential (mã hóa), stats doanh thu. Router đã hỗ trợ **ZDR** (`provider.data_collection:"deny"`) + **BYOK** (`byok_keys` → không tính phí inference). 🚧 TODO: UI admin, plugins (web search/file-parser), structured-output enforcement. |
+| **P5 — Admin, ZDR/BYOK, Plugins** | ✅ Admin API (markup CRUD, nạp upstream credential mã hóa, stats) + **UI admin trong app** (`/admin/llms` qua proxy `/api/llms-admin/*`). ✅ **ZDR** (`provider.data_collection:"deny"`) + **BYOK** (`byok_keys`). ✅ **Plugins** web-search (Tavily) + file-parser. 🚧 TODO: structured-output enforcement, thêm plugin. |
 
 ---
 

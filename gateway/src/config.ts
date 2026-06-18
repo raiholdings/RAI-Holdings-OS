@@ -39,4 +39,8 @@ export const config = {
     secretKey: env.MOMO_SECRET_KEY || "",
     endpoint: env.MOMO_ENDPOINT || "https://test-payment.momo.vn/v2/gateway/api/create",
   },
+  search: {
+    provider: env.SEARCH_PROVIDER || "tavily",   // tavily
+    apiKey: env.SEARCH_API_KEY || "",
+  },
 };

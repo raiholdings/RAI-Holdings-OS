@@ -25,6 +25,7 @@ export const adminNav: NavGroup[] = [
       { href: "/admin/mcp", label: t("MCP servers", "Máy chủ MCP"), icon: "server" },
       { href: "/admin/apps", label: t("Apps", "Ứng dụng"), icon: "box" },
       { href: "/admin/code", label: t("Code", "Mã nguồn"), icon: "cpu" },
+      { href: "/admin/llms", label: t("LLM gateway", "Cổng LLM"), icon: "server" },
     ],
   },
   {

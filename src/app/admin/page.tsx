@@ -17,6 +17,7 @@ const cards: Card[] = [
   { href: "/admin/mcp", icon: "server", title: t("MCP servers", "Máy chủ MCP"), desc: t("Publish, sync & moderate servers.", "Đăng, đồng bộ & kiểm duyệt máy chủ."), ready: true },
   { href: "/admin/apps", icon: "box", title: t("Apps", "Ứng dụng"), desc: t("App submissions & review.", "Đề xuất ứng dụng & duyệt."), ready: true },
   { href: "/admin/code", icon: "cpu", title: t("Code", "Mã nguồn"), desc: t("Repositories, imports & licenses.", "Kho mã, nhập & giấy phép."), ready: true },
+  { href: "/admin/llms", icon: "server", title: t("LLM gateway", "Cổng LLM"), desc: t("Markups, provider keys & revenue stats.", "Markup, khóa NCC & thống kê doanh thu."), ready: true },
   { href: "/admin/about", icon: "world", title: t("About & site", "Giới thiệu & site"), desc: t("Company info & static pages.", "Thông tin công ty & trang tĩnh."), ready: true },
 ];
 
