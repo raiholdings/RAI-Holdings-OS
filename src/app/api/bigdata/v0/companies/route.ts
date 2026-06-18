@@ -3,8 +3,9 @@ import { mapCustomer, type CompanySearchResult, type PerfexCustomer } from "@/li
 
 export const dynamic = "force-dynamic";
 
-const BASE = process.env.RAICRM_BASE || "https://raicrm.vn/api";
-const TOKEN = process.env.RAICRM_TOKEN || "";
+// Read env inside the handler — on Cloudflare Workers it isn't available at module load.
+const BASE_OF = () => process.env.RAICRM_BASE || "https://raicrm.vn/api";
+const TOKEN_OF = () => process.env.RAICRM_TOKEN || "";
 
 /**
  * GET /api/bigdata/v0/companies?q=&page=&per_page=
@@ -24,12 +25,13 @@ export async function GET(req: Request) {
   if (q.length < 2) {
     return NextResponse.json(empty({ note: "query_too_short" }), { headers: { "cache-control": "no-store" } });
   }
+  const TOKEN = TOKEN_OF();
   if (!TOKEN) {
     return NextResponse.json(empty({ error: "missing_token" }), { headers: { "cache-control": "no-store" } });
   }
 
   try {
-    const res = await fetch(`${BASE}/customers/search/${encodeURIComponent(q)}`, {
+    const res = await fetch(`${BASE_OF()}/customers/search/${encodeURIComponent(q)}`, {
       headers: { authtoken: TOKEN, accept: "application/json" },
       // upstream can be slow on big result sets
       signal: AbortSignal.timeout(25_000),

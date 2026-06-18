@@ -1,19 +1,21 @@
 // RAI Social (WoWonder) REST API — server-side only. Never import in client code.
 // Auth model: every call sends `server_key`; login/register return an access_token.
-const BASE = (process.env.RAISOCIAL_BASE || "https://raisocial.vn/api").replace(/\/$/, "");
-const SERVER_KEY = process.env.RAISOCIAL_SERVER_KEY || "";
+// NOTE: read env INSIDE functions — on Cloudflare Workers (OpenNext) process.env
+// is only populated during a request, not at module top-level.
+function base() { return (process.env.RAISOCIAL_BASE || "https://raisocial.vn/api").replace(/\/$/, ""); }
+function serverKey() { return process.env.RAISOCIAL_SERVER_KEY || ""; }
 
 export class RaiSocialError extends Error {
   constructor(public code: string, message: string) { super(message); }
 }
 
 function ensureConfigured() {
-  if (!SERVER_KEY) throw new RaiSocialError("not_configured", "RAISOCIAL_SERVER_KEY is not set on the server");
+  if (!serverKey()) throw new RaiSocialError("not_configured", "RAISOCIAL_SERVER_KEY is not set on the server");
 }
 
 async function post(path: string, params: Record<string, string>, query = ""): Promise<Record<string, unknown>> {
-  const body = new URLSearchParams({ server_key: SERVER_KEY, ...params });
-  const res = await fetch(`${BASE}/${path}${query}`, {
+  const body = new URLSearchParams({ server_key: serverKey(), ...params });
+  const res = await fetch(`${base()}/${path}${query}`, {
     method: "POST",
     headers: { "content-type": "application/x-www-form-urlencoded" },
     body,

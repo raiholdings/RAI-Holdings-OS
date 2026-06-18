@@ -5,10 +5,13 @@ export const dynamic = "force-dynamic";
 // Server-side proxy to the RAI LLMs gateway /admin/* API. Keeps the gateway
 // ADMIN_TOKEN on the server — never exposed to the browser. Gated upstream by
 // the /admin password layer (this route lives under the admin area's trust).
-const BASE = (process.env.RAI_LLMS_BASE || process.env.NEXT_PUBLIC_RAI_LLMS_BASE || "").replace(/\/$/, "");
-const ADMIN_TOKEN = process.env.RAI_LLMS_ADMIN_TOKEN || "";
+// Read env inside the handler — not available at module load on Cloudflare Workers.
+const baseOf = () => (process.env.RAI_LLMS_BASE || process.env.NEXT_PUBLIC_RAI_LLMS_BASE || "").replace(/\/$/, "");
+const adminTokenOf = () => process.env.RAI_LLMS_ADMIN_TOKEN || "";
 
 async function forward(method: string, path: string[], req: Request): Promise<Response> {
+  const BASE = baseOf();
+  const ADMIN_TOKEN = adminTokenOf();
   if (!BASE || !ADMIN_TOKEN) {
     return NextResponse.json({ error: "gateway_not_configured", hint: "Set RAI_LLMS_BASE + RAI_LLMS_ADMIN_TOKEN" }, { status: 503 });
   }

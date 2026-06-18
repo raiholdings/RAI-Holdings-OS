@@ -3,16 +3,18 @@ import { mapCustomer, type PerfexCustomer } from "@/lib/bigdata";
 
 export const dynamic = "force-dynamic";
 
-const BASE = process.env.RAICRM_BASE || "https://raicrm.vn/api";
-const TOKEN = process.env.RAICRM_TOKEN || "";
+// Read env inside the handler — not available at module load on Cloudflare Workers.
+const BASE_OF = () => process.env.RAICRM_BASE || "https://raicrm.vn/api";
+const TOKEN_OF = () => process.env.RAICRM_TOKEN || "";
 
 /** GET /api/bigdata/v0/companies/[id] — single company from raicrm.vn. */
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const TOKEN = TOKEN_OF();
   if (!TOKEN) return NextResponse.json({ error: "missing_token" }, { status: 503 });
 
   try {
-    const res = await fetch(`${BASE}/customers/${encodeURIComponent(id)}`, {
+    const res = await fetch(`${BASE_OF()}/customers/${encodeURIComponent(id)}`, {
       headers: { authtoken: TOKEN, accept: "application/json" },
       signal: AbortSignal.timeout(20_000),
       cache: "no-store",

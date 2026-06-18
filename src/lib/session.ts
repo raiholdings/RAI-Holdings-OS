@@ -5,7 +5,8 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 // HMAC-SHA256 signature. The RAI Social access token stays server-side (in the
 // httpOnly cookie), never exposed to client JS.
 const COOKIE = "rai_session";
-const SECRET = process.env.SESSION_SECRET || "dev-session-secret-change-me";
+// Read inside a function — on Cloudflare Workers env isn't available at module load.
+function secret() { return process.env.SESSION_SECRET || "dev-session-secret-change-me"; }
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
 export type Session = {
@@ -18,7 +19,7 @@ export type Session = {
 };
 
 function b64url(buf: Buffer): string { return buf.toString("base64url"); }
-function sign(data: string): string { return createHmac("sha256", SECRET).update(data).digest("base64url"); }
+function sign(data: string): string { return createHmac("sha256", secret()).update(data).digest("base64url"); }
 
 function serialize(s: Session): string {
   const payload = b64url(Buffer.from(JSON.stringify(s)));
