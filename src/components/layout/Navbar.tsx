@@ -6,6 +6,7 @@ import { buttonClass } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Logo } from "@/components/ui/Logo";
 import { navGroups } from "@/lib/content";
+import { AppLauncher } from "@/components/workspace/AppLauncher";
 import { useLang, t } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
@@ -52,6 +53,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <AppLauncher />
           <LangToggle />
           <a href="/login" className={cn(buttonClass("outline", "sm"), "hidden sm:inline-flex")}>{tr(t("Sign in", "Đăng nhập"))}</a>
           <a href="/login?tab=register" className={buttonClass("primary", "sm")}>{tr(t("Sign up", "Đăng ký"))}</a>

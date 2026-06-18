@@ -33,9 +33,10 @@ export function AppLauncher() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={tr(t("RAI apps", "Ứng dụng RAI"))}
-        className={cn("grid size-9 place-items-center rounded-[var(--radius-md)] border transition-colors", open ? "border-accent text-accent" : "border-border text-text-2 hover:text-text")}
+        title={tr(t("Explore RAI Workspace", "Khám phá RAI Workspace"))}
+        className={cn("grid size-11 place-items-center rounded-[var(--radius-md)] border transition-colors", open ? "border-accent bg-accent/10 text-accent" : "border-border text-text-2 hover:bg-surface hover:text-text")}
       >
-        <Icon name="grid" size={18} />
+        <Icon name="grid" size={24} />
       </button>
 
       {open && (
