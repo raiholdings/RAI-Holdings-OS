@@ -15,7 +15,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const { id } = await params;
   const body = (await req.json().catch(() => ({}))) as { status?: string; data?: Venture };
   try {
-    const orgs = await ensureOrgs(session.userId, session.name || session.username);
+    const orgs = await ensureOrgs(session);
     await patchVenture(id, orgs.map((o) => o.id), body);
     return NextResponse.json({ db: true, ok: true });
   } catch (e) {
@@ -31,7 +31,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
 
   const { id } = await params;
   try {
-    const orgs = await ensureOrgs(session.userId, session.name || session.username);
+    const orgs = await ensureOrgs(session);
     await removeVenture(id, orgs.map((o) => o.id));
     return NextResponse.json({ db: true, ok: true });
   } catch (e) {

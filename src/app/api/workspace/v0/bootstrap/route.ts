@@ -13,7 +13,7 @@ export async function GET() {
   if (!dbEnabled()) return NextResponse.json({ db: false });
 
   try {
-    const orgs = await ensureOrgs(session.userId, session.name || session.username);
+    const orgs = await ensureOrgs(session);
     const ventures = await listVentures(orgs.map((o) => o.id));
     return NextResponse.json({ db: true, orgs, ventures }, { headers: { "cache-control": "no-store" } });
   } catch (e) {

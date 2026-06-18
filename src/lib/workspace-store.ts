@@ -6,7 +6,8 @@ import { generateVenture, type Venture, type VentureStatus } from "@/lib/workspa
 /* RAI OS Workspace — client state (P1/P2 mock). Multi-tenant: orgs + ventures
    scoped by orgId. localStorage-backed; replace with backend (org JWT + DB). */
 
-export type Org = { id: string; name: string; balanceVnd: number };
+export type Role = "owner" | "admin" | "member";
+export type Org = { id: string; name: string; balanceVnd: number; role?: Role };
 
 type State = { orgs: Org[]; currentOrgId: string; ventures: Venture[]; seq: number };
 
@@ -54,6 +55,22 @@ export async function syncRemote() {
   } catch { /* stay local */ }
   finally { syncing = false; }
 }
+
+/** Re-pull server state (e.g. after creating an org or inviting a member). No-op when local. */
+export async function refreshRemote() {
+  if (!remote) return;
+  try {
+    const res = await fetch("/api/workspace/v0/bootstrap", { credentials: "include" });
+    if (!res.ok) return;
+    const j = (await res.json()) as { db?: boolean; orgs?: Org[]; ventures?: Venture[] };
+    if (!j.db || !j.orgs?.length) return;
+    const currentOrgId = j.orgs.some((o) => o.id === state.currentOrgId) ? state.currentOrgId : j.orgs[0].id;
+    set({ orgs: j.orgs, ventures: j.ventures ?? [], currentOrgId });
+  } catch { /* ignore */ }
+}
+
+/** Whether the workspace is backed by the DB (vs localStorage). Not reactive. */
+export function isRemote() { return remote; }
 
 /* ---- mutations ---- */
 export function createVenture(idea: string): Venture {

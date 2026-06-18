@@ -56,9 +56,22 @@ export type RaiSocialUser = { userId: string; username: string; name: string; av
 export async function getRaiSocialUser(accessToken: string, userId: string): Promise<RaiSocialUser> {
   ensureConfigured();
   const json = await post("get-user-data", { user_id: userId, fetch: "user_data" }, `?access_token=${encodeURIComponent(accessToken)}`);
+  return mapUser(json.user_data, userId);
+}
+
+/** Look up a RAI Social user by username (for org invites). Throws if not found. */
+export async function findRaiSocialUserByUsername(accessToken: string, username: string): Promise<RaiSocialUser> {
+  ensureConfigured();
+  const json = await post("get-user-data", { username: username.replace(/^@/, ""), fetch: "user_data" }, `?access_token=${encodeURIComponent(accessToken)}`);
   const d = (json.user_data ?? {}) as Record<string, unknown>;
+  if (!d.user_id) throw new RaiSocialError("user_not_found", errText(json) || "User not found");
+  return mapUser(d, String(d.user_id));
+}
+
+function mapUser(raw: unknown, fallbackId: string): RaiSocialUser {
+  const d = (raw ?? {}) as Record<string, unknown>;
   return {
-    userId: String(d.user_id ?? userId),
+    userId: String(d.user_id ?? fallbackId),
     username: String(d.username ?? ""),
     name: String(d.name || d.first_name || d.username || "RAI user"),
     avatar: String(d.avatar ?? ""),

@@ -27,6 +27,10 @@ create table if not exists workspace.org_members (
   org_id      text not null references workspace.orgs(id) on delete cascade,
   rai_user_id text not null,
   role        text not null default 'owner' check (role in ('owner','admin','member')),
+  -- denormalized RAI Social snapshot so the members list needs no extra lookup
+  name        text,
+  username    text,
+  avatar      text,
   created_at  timestamptz not null default now(),
   primary key (org_id, rai_user_id)
 );

@@ -23,6 +23,7 @@ const workspaceNav: NavGroup[] = [
       { href: "/workspace/llms", label: t("RAI LLMs", "RAI LLMs"), icon: "cpu" },
       { href: "/workspace/engines", label: t("Engines", "Engine"), icon: "settings" },
       { href: "/workspace/billing", label: t("Billing", "Thanh toán"), icon: "receipt" },
+      { href: "/workspace/org", label: t("Organization", "Tổ chức"), icon: "users" },
     ],
   },
   {
