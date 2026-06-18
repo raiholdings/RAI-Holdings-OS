@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/Logo";
 import { Icon } from "@/components/ui/Icon";
 import { useLang, t, type T } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
-import { hydrateStore, useOrgs, useCurrentOrg, switchOrg } from "@/lib/workspace-store";
+import { hydrateStore, syncRemote, useOrgs, useCurrentOrg, switchOrg } from "@/lib/workspace-store";
 import { AppLauncher } from "@/components/workspace/AppLauncher";
 
 type NavItem = { href: string; label: T; icon: string };
@@ -54,6 +54,7 @@ export function WorkspaceShell({ children, user }: { children: React.ReactNode; 
 
   useEffect(() => {
     hydrateStore();
+    syncRemote(); // adopt DB-backed state when persistence is enabled; else stay local
   }, []);
 
   async function signOut() {
