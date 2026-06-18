@@ -27,19 +27,21 @@ const TABS: { id: TabId; label: T; icon: string }[] = [
   { id: "docs", label: t("Docs", "Tài liệu"), icon: "file-text" },
 ];
 
-export function LLMsView() {
+export function LLMsView({ embedded = false }: { embedded?: boolean }) {
   const { tr, lang, setLang } = useLang();
   const [active, setActive] = useState<TabId>("models");
 
   return (
-    <div className="min-h-dvh bg-bg">
-      <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur-md">
-        <div className={`${WRAP} flex h-16 items-center justify-between gap-4`}>
-          <div className="flex items-center gap-4"><Link href="/"><Logo /></Link><span className="mono hidden text-[0.7rem] text-text-2 sm:inline">/ LLMS</span></div>
-          <div className="mono flex items-center overflow-hidden rounded-[var(--radius-md)] border border-border text-[0.72rem]">
-            {(["en", "vi"] as const).map((l) => <button key={l} onClick={() => setLang(l)} className={cn("px-2 py-1 uppercase transition-colors", lang === l ? "bg-accent text-white" : "text-text-2 hover:text-text")}>{l}</button>)}
+    <div className={embedded ? "" : "min-h-dvh bg-bg"}>
+      <header className="sticky top-0 z-30 border-b border-border bg-bg/90 backdrop-blur-md">
+        {!embedded && (
+          <div className={`${WRAP} flex h-16 items-center justify-between gap-4`}>
+            <div className="flex items-center gap-4"><Link href="/"><Logo /></Link><span className="mono hidden text-[0.7rem] text-text-2 sm:inline">/ LLMS</span></div>
+            <div className="mono flex items-center overflow-hidden rounded-[var(--radius-md)] border border-border text-[0.72rem]">
+              {(["en", "vi"] as const).map((l) => <button key={l} onClick={() => setLang(l)} className={cn("px-2 py-1 uppercase transition-colors", lang === l ? "bg-accent text-white" : "text-text-2 hover:text-text")}>{l}</button>)}
+            </div>
           </div>
-        </div>
+        )}
         <div className={`${WRAP} flex gap-0.5 overflow-x-auto`}>
           {TABS.map((x) => (
             <button key={x.id} onClick={() => setActive(x.id)} className={cn("flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-3 text-[0.85rem] transition-colors", active === x.id ? "border-accent text-text" : "border-transparent text-text-2 hover:text-text")}>

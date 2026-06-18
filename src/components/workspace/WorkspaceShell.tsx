@@ -19,8 +19,8 @@ const workspaceNav: NavGroup[] = [
     items: [
       { href: "/workspace", label: t("Home", "Trang chủ"), icon: "home" },
       { href: "/workspace/ventures", label: t("Ventures", "Doanh nghiệp"), icon: "building" },
-      { href: "/bigdata", label: t("Big Data", "Big Data"), icon: "database" },
-      { href: "/llms", label: t("RAI LLMs", "RAI LLMs"), icon: "cpu" },
+      { href: "/workspace/data", label: t("Big Data", "Big Data"), icon: "database" },
+      { href: "/workspace/llms", label: t("RAI LLMs", "RAI LLMs"), icon: "cpu" },
       { href: "/workspace/engines", label: t("Engines", "Engine"), icon: "settings" },
       { href: "/workspace/billing", label: t("Billing", "Thanh toán"), icon: "receipt" },
     ],

@@ -10,8 +10,8 @@ export const raiAppGroups: RaiAppGroup[] = [
     items: [
       { name: t("Venture Builder", "Venture Builder"), icon: "sparkles", color: "#378ADD", href: "/workspace" },
       { name: t("Ventures", "Doanh nghiệp"), icon: "building", color: "#0C447C", href: "/workspace/ventures" },
-      { name: t("Big Data", "Big Data"), icon: "database", color: "#0F6E56", href: "/bigdata" },
-      { name: t("RAI LLMs", "RAI LLMs"), icon: "cpu", color: "#6D28D9", href: "/llms" },
+      { name: t("Big Data", "Big Data"), icon: "database", color: "#0F6E56", href: "/workspace/data" },
+      { name: t("RAI LLMs", "RAI LLMs"), icon: "cpu", color: "#6D28D9", href: "/workspace/llms" },
       { name: t("Engines", "Engine"), icon: "settings", color: "#3B6D11", href: "/workspace/engines" },
       { name: t("Billing", "Thanh toán"), icon: "receipt", color: "#B45309", href: "/workspace/billing" },
     ],
