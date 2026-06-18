@@ -11,5 +11,12 @@
   "services": [
     { "binding": "WORKER_SELF_REFERENCE", "service": "raiholdings" }
   ],
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  "//note": "Non-secret config baked here so it survives every deploy. SECRETS (RAISOCIAL_SERVER_KEY, RAISOCIAL_APP_SECRET, SESSION_SECRET, RAICRM_TOKEN, ADMIN_PASSWORD, RAI_LLMS_ADMIN_TOKEN) must be set as Secrets in the dashboard or via `wrangler secret put` — never put secrets here.",
+  "vars": {
+    "RAISOCIAL_BASE": "https://raisocial.vn/api",
+    "RAISOCIAL_SITE": "https://raisocial.vn",
+    "RAISOCIAL_APP_ID": "92b9ed98f5fc8b545cf7",
+    "RAICRM_BASE": "https://raicrm.vn/api"
+  }
 }
