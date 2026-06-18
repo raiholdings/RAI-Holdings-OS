@@ -21,6 +21,8 @@ export type Venture = {
   domain: string;
   name: string;
   pillar: Pillar;
+  /** Set when the platform already has a live independent website to link out to. */
+  liveUrl?: string;
   eyebrow: T;
   title: T;
   subtitle: T;
@@ -33,21 +35,6 @@ export type Venture = {
   pricingNote: T;
   ctaTitle: T;
   ctaBody: T;
-};
-
-/** Map each satellite hostname → venture slug. www + apex both covered in middleware. */
-export const hostToSlug: Record<string, string> = {
-  "raigpt.vn": "rai-gpt",
-  "raichatbot.vn": "rai-chatbot",
-  "raiagent.vn": "rai-agent",
-  "raidata.vn": "rai-data",
-  "raicdp.vn": "rai-cdp",
-  "rain8n.vn": "rai-n8n",
-  "raiodoo.vn": "rai-odoo",
-  "raierpnext.vn": "rai-erpnext",
-  "raitravel.vn": "rai-travel",
-  "raicommerce.vn": "rai-commerce",
-  "raiads.vn": "rai-ads",
 };
 
 const P = (en: string, vi: string): T => t(en, vi);
@@ -484,6 +471,130 @@ export const ventures: Venture[] = [
     pricingNote: P("Estimated pricing — final plans confirmed at sign-up.", "Giá dự kiến — gói cuối xác nhận khi đăng ký."),
     ctaTitle: P("Make every ad đồng count.", "Để mỗi đồng quảng cáo đáng giá."),
     ctaBody: P("Leave your details — we'll review your campaigns and goals.", "Để lại thông tin — chúng tôi sẽ rà soát chiến dịch và mục tiêu của bạn."),
+  },
+
+  /* ───────────────────── RAI Social — social network ──────────────────── */
+  {
+    slug: "rai-social",
+    domain: "raisocial.vn",
+    name: "RAI Social",
+    pillar: "community_platform",
+    liveUrl: "https://raisocial.vn",
+    eyebrow: P("RAI Social · Social Network", "RAI Social · Mạng xã hội"),
+    title: P("The social network of the RAI ecosystem.", "Mạng xã hội của hệ sinh thái RAI."),
+    subtitle: P(
+      "Connect, share and build community on a Vietnamese-first social platform — and sign in once to use every RAI app with the same account.",
+      "Kết nối, chia sẻ và xây dựng cộng đồng trên nền tảng mạng xã hội ưu tiên tiếng Việt — và đăng nhập một lần để dùng mọi ứng dụng RAI bằng cùng một tài khoản.",
+    ),
+    quote: P(
+      "One identity across the whole RAI ecosystem.",
+      "Một danh tính cho toàn bộ hệ sinh thái RAI.",
+    ),
+    ctaPrimary: P("Join RAI Social", "Tham gia RAI Social"),
+    metrics: [
+      { value: "Live", label: P("Available now", "Đang hoạt động") },
+      { value: "SSO", label: P("One RAI login", "Một tài khoản RAI") },
+      { value: "VN", label: P("Vietnamese-first", "Ưu tiên tiếng Việt") },
+      { value: "Web", label: P("& mobile", "& di động") },
+    ],
+    features: [
+      { n: "01", title: P("Profiles & feeds", "Trang cá nhân & bảng tin"), body: P("Post updates, photos and videos and follow the people and pages you care about.", "Đăng cập nhật, ảnh và video, theo dõi những người và trang bạn quan tâm.") },
+      { n: "02", title: P("Groups & pages", "Nhóm & trang"), body: P("Build communities and brand pages to reach and grow your audience.", "Lập cộng đồng và trang thương hiệu để tiếp cận và phát triển tệp khán giả.") },
+      { n: "03", title: P("Single sign-on for RAI", "Đăng nhập chung cho RAI"), body: P("Your RAI Social account signs you into RAI OS and every RAI app — one identity everywhere.", "Tài khoản RAI Social đăng nhập vào RAI OS và mọi ứng dụng RAI — một danh tính ở khắp nơi.") },
+      { n: "04", title: P("Messaging", "Nhắn tin"), body: P("Chat one-to-one or in groups, with media and reactions.", "Trò chuyện 1-1 hoặc nhóm, kèm media và biểu cảm.") },
+    ],
+    useCases: [
+      { title: P("Creators", "Nhà sáng tạo"), body: P("Grow an audience and share your work natively.", "Phát triển khán giả và chia sẻ tác phẩm ngay trên nền tảng.") },
+      { title: P("Communities", "Cộng đồng"), body: P("Run groups around your interests or business.", "Vận hành nhóm theo sở thích hoặc công việc kinh doanh.") },
+      { title: P("Brands", "Thương hiệu"), body: P("Reach customers and connect to other RAI tools.", "Tiếp cận khách hàng và kết nối với các công cụ RAI khác.") },
+    ],
+    pricing: [
+      { name: P("Member", "Thành viên"), price: P("Free", "Miễn phí"), features: [P("Full social features", "Đầy đủ tính năng mạng xã hội"), P("RAI single sign-on", "Đăng nhập chung RAI"), P("Web & mobile", "Web & di động")] },
+      { name: P("Business / Brand", "Doanh nghiệp / Thương hiệu"), price: P("Contact us", "Liên hệ"), featured: true, features: [P("Verified brand page", "Trang thương hiệu xác minh"), P("Audience tools", "Công cụ tiếp cận"), P("RAI ecosystem integrations", "Tích hợp hệ sinh thái RAI")] },
+    ],
+    pricingNote: P("Joining is free — business options confirmed on request.", "Tham gia miễn phí — phương án doanh nghiệp xác nhận khi liên hệ."),
+    ctaTitle: P("Join the RAI community.", "Tham gia cộng đồng RAI."),
+    ctaBody: P("Create a RAI Social account — it's your key to the whole ecosystem.", "Tạo tài khoản RAI Social — chìa khóa của bạn vào toàn hệ sinh thái."),
+  },
+
+  /* ───────────────────────── RAI Music — streaming ───────────────────── */
+  {
+    slug: "rai-music",
+    domain: "raimusic.vn",
+    name: "RAI Music",
+    pillar: "tech_business",
+    liveUrl: "https://raimusic.vn",
+    eyebrow: P("RAI Music · Music Platform", "RAI Music · Nền tảng âm nhạc"),
+    title: P("Music for the RAI generation.", "Âm nhạc cho thế hệ RAI."),
+    subtitle: P(
+      "Stream, discover and share music on a Vietnamese-first platform — for listeners who want more, and artists who want to be heard.",
+      "Nghe, khám phá và chia sẻ âm nhạc trên nền tảng ưu tiên tiếng Việt — cho người nghe muốn nhiều hơn và nghệ sĩ muốn được lắng nghe.",
+    ),
+    ctaPrimary: P("Start listening", "Nghe ngay"),
+    metrics: [
+      { value: "Live", label: P("Available now", "Đang hoạt động") },
+      { value: "VN", label: P("Local catalog", "Kho nhạc Việt") },
+      { value: "Web", label: P("& mobile", "& di động") },
+      { value: "SSO", label: P("One RAI login", "Một tài khoản RAI") },
+    ],
+    features: [
+      { n: "01", title: P("Stream & playlists", "Nghe & danh sách phát"), body: P("Listen to tracks and build playlists for every moment.", "Nghe nhạc và tạo danh sách phát cho mọi khoảnh khắc.") },
+      { n: "02", title: P("Discover", "Khám phá"), body: P("Find new music with recommendations tuned to your taste.", "Tìm nhạc mới với gợi ý theo gu của bạn.") },
+      { n: "03", title: P("For artists", "Cho nghệ sĩ"), body: P("Upload, publish and reach listeners directly.", "Tải lên, phát hành và tiếp cận người nghe trực tiếp.") },
+      { n: "04", title: P("Connected to RAI", "Kết nối với RAI"), body: P("Sign in with your RAI account and share to RAI Social.", "Đăng nhập bằng tài khoản RAI và chia sẻ lên RAI Social.") },
+    ],
+    useCases: [
+      { title: P("Listeners", "Người nghe"), body: P("Soundtrack your day with Vietnamese and global music.", "Nghe nhạc Việt và quốc tế suốt cả ngày.") },
+      { title: P("Artists", "Nghệ sĩ"), body: P("Publish your music and grow a fanbase.", "Phát hành nhạc và xây dựng cộng đồng người hâm mộ.") },
+      { title: P("Brands", "Thương hiệu"), body: P("Reach audiences through sound and playlists.", "Tiếp cận khán giả qua âm thanh và danh sách phát.") },
+    ],
+    pricing: [
+      { name: P("Free", "Miễn phí"), price: P("Free", "Miễn phí"), features: [P("Stream & playlists", "Nghe & danh sách phát"), P("Discover new music", "Khám phá nhạc mới"), P("RAI single sign-on", "Đăng nhập chung RAI")] },
+      { name: P("Premium", "Premium"), price: P("Contact us", "Liên hệ"), featured: true, features: [P("Ad-free listening", "Nghe không quảng cáo"), P("Higher quality audio", "Chất lượng âm thanh cao hơn"), P("Offline & extras", "Nghe offline & tiện ích thêm")] },
+    ],
+    pricingNote: P("Free to start — premium plans confirmed on request.", "Bắt đầu miễn phí — gói premium xác nhận khi liên hệ."),
+    ctaTitle: P("Press play on RAI Music.", "Bấm phát trên RAI Music."),
+    ctaBody: P("Create an account and start listening — or reach out to publish your music.", "Tạo tài khoản và bắt đầu nghe — hoặc liên hệ để phát hành nhạc của bạn."),
+  },
+
+  /* ───────────────────────── RAI Times — news & media ────────────────── */
+  {
+    slug: "rai-times",
+    domain: "raitimes.com",
+    name: "RAI Times",
+    pillar: "tech_business",
+    liveUrl: "https://www.raitimes.com",
+    eyebrow: P("RAI Times · News & Media", "RAI Times · Tin tức & Truyền thông"),
+    title: P("Technology and business news from the RAI ecosystem.", "Tin công nghệ và kinh doanh từ hệ sinh thái RAI."),
+    subtitle: P(
+      "Coverage of AI, technology and the Vietnamese business landscape — the media voice of RAI Holdings.",
+      "Đưa tin về AI, công nghệ và bức tranh kinh doanh Việt Nam — tiếng nói truyền thông của RAI Holdings.",
+    ),
+    ctaPrimary: P("Read RAI Times", "Đọc RAI Times"),
+    metrics: [
+      { value: "Live", label: P("Publishing now", "Đang xuất bản") },
+      { value: "AI", label: P("& tech focus", "& trọng tâm công nghệ") },
+      { value: "VN", label: P("Business coverage", "Bức tranh kinh doanh") },
+      { value: "Web", label: P("Read anywhere", "Đọc mọi nơi") },
+    ],
+    features: [
+      { n: "01", title: P("Tech & AI news", "Tin công nghệ & AI"), body: P("Stay current on AI, software and the platforms shaping business.", "Cập nhật về AI, phần mềm và các nền tảng định hình kinh doanh.") },
+      { n: "02", title: P("Business coverage", "Tin kinh doanh"), body: P("Reporting on the Vietnamese market and the digital economy.", "Đưa tin về thị trường Việt Nam và nền kinh tế số.") },
+      { n: "03", title: P("Ecosystem stories", "Câu chuyện hệ sinh thái"), body: P("Updates, launches and insights from across RAI Holdings.", "Cập nhật, ra mắt và góc nhìn từ khắp RAI Holdings.") },
+      { n: "04", title: P("Read anywhere", "Đọc mọi nơi"), body: P("A fast, clean reading experience on web and mobile.", "Trải nghiệm đọc nhanh, gọn trên web và di động.") },
+    ],
+    useCases: [
+      { title: P("Professionals", "Người đi làm"), body: P("Keep up with tech and business in minutes a day.", "Theo kịp công nghệ và kinh doanh chỉ vài phút mỗi ngày.") },
+      { title: P("Founders", "Nhà sáng lập"), body: P("Track the trends and tools that matter to you.", "Theo dõi xu hướng và công cụ quan trọng với bạn.") },
+      { title: P("Partners", "Đối tác"), body: P("Follow news from across the RAI ecosystem.", "Theo dõi tin tức từ khắp hệ sinh thái RAI.") },
+    ],
+    pricing: [
+      { name: P("Reader", "Bạn đọc"), price: P("Free", "Miễn phí"), features: [P("Full access to articles", "Đọc đầy đủ bài viết"), P("Tech, AI & business", "Công nghệ, AI & kinh doanh"), P("Web & mobile", "Web & di động")] },
+      { name: P("Partner / Press", "Đối tác / Báo chí"), price: P("Contact us", "Liên hệ"), featured: true, features: [P("Editorial collaboration", "Hợp tác nội dung"), P("Press & PR", "Báo chí & PR"), P("Ecosystem coverage", "Đưa tin hệ sinh thái")] },
+    ],
+    pricingNote: P("Free to read — partnership options confirmed on request.", "Đọc miễn phí — phương án hợp tác xác nhận khi liên hệ."),
+    ctaTitle: P("Stay ahead with RAI Times.", "Đi trước cùng RAI Times."),
+    ctaBody: P("Read the latest — or reach out about editorial and press partnerships.", "Đọc tin mới nhất — hoặc liên hệ về hợp tác nội dung và báo chí."),
   },
 ];
 

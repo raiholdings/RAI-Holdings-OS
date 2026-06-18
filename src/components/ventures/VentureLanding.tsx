@@ -33,7 +33,13 @@ export function VentureLanding({ v }: { v: Venture }) {
             <a href="#contact" className={buttonClass("primary", "lg")} style={{ background: C, borderColor: C }}>
               {tr(v.ctaPrimary)} <Icon name="arrow-up-right" size={18} />
             </a>
-            <a href="#features" className={buttonClass("outline", "lg")}>{tr(t("Explore features", "Khám phá tính năng"))}</a>
+            {v.liveUrl ? (
+              <a href={v.liveUrl} target="_blank" rel="noreferrer" className={buttonClass("outline", "lg")}>
+                {tr(t("Open the live site", "Mở site thật"))} <Icon name="arrow-up-right" size={18} />
+              </a>
+            ) : (
+              <a href="#features" className={buttonClass("outline", "lg")}>{tr(t("Explore features", "Khám phá tính năng"))}</a>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-px border-t border-border bg-border sm:grid-cols-4">

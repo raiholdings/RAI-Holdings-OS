@@ -1,29 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 /**
- * Satellite-domain routing.
+ * Host-based routing for RAI subdomains.
  *
- * Each RAI venture has its own domain (e.g. raigpt.vn). When a request arrives
- * on one of those hostnames, rewrite it to the matching landing under /v/[slug]
- * — the URL bar stays on the satellite domain. The main raiholdings.vn site and
- * localhost are untouched (host not in the map → pass through).
+ * Satellite product domains (raigpt.vn, raisocial.vn, …) are independent
+ * websites and are intentionally NOT routed here — each platform's marketing
+ * landing now lives inside the workspace at /workspace/platform/[slug].
  *
  * Kept inline (no heavy imports) so the edge middleware bundle stays small.
  */
-const HOST_TO_SLUG: Record<string, string> = {
-  "raigpt.vn": "rai-gpt",
-  "raichatbot.vn": "rai-chatbot",
-  "raiagent.vn": "rai-agent",
-  "raidata.vn": "rai-data",
-  "raicdp.vn": "rai-cdp",
-  "rain8n.vn": "rai-n8n",
-  "raiodoo.vn": "rai-odoo",
-  "raierpnext.vn": "rai-erpnext",
-  "raitravel.vn": "rai-travel",
-  "raicommerce.vn": "rai-commerce",
-  "raiads.vn": "rai-ads",
-};
-
 // The OS Console lives at /app; serve it on the app.raiholdings.vn subdomain.
 const CONSOLE_HOST = "app.raiholdings.vn";
 // The customer Workspace lives at /workspace; also served on its own subdomain.
@@ -59,14 +44,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  // Satellite venture domains — raigpt.vn/* → /v/rai-gpt
-  const slug = HOST_TO_SLUG[host];
-  if (!slug) return NextResponse.next();
-
-  const url = req.nextUrl.clone();
-  if (url.pathname.startsWith("/v/")) return NextResponse.next();
-  url.pathname = `/v/${slug}`;
-  return NextResponse.rewrite(url);
+  // Everything else (main site, localhost, independent product domains) passes through.
+  return NextResponse.next();
 }
 
 export const config = {
