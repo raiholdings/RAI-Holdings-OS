@@ -19,6 +19,8 @@ import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
 import { RoleList, MembershipList } from "./pages/iam";
+import { UserManager } from "./pages/users";
+import { PermissionMatrix } from "./pages/permissions";
 import { ListingList, ListingEdit, RepoList, RepoEdit, AppList, AppEdit, McpServerList, McpServerEdit } from "./pages/solutions";
 
 const iam = { schema: "iam" };
@@ -56,6 +58,8 @@ export function App() {
               { name: "servers", list: "/solutions/mcp", edit: "/solutions/mcp/edit/:id", meta: { schema: "mcp", parent: "solutions_grp", label: "MCP" } },
 
               { name: "iam_grp", meta: { label: "IAM" } },
+              { name: "users", list: "/iam/users", meta: { parent: "iam_grp", label: "Người dùng" } },
+              { name: "permissions", list: "/iam/permissions", meta: { parent: "iam_grp", label: "Phân quyền (ma trận)" } },
               { name: "organizations", list: "/iam/organizations", create: "/iam/organizations/create", edit: "/iam/organizations/edit/:id", meta: { ...iam, parent: "iam_grp", label: "Tổ chức (IAM)", canDelete: true } },
               { name: "roles", list: "/iam/roles", meta: { ...iam, parent: "iam_grp", label: "Vai trò" } },
               { name: "memberships", list: "/iam/memberships", meta: { ...iam, parent: "iam_grp", label: "Phân quyền" } },
@@ -117,6 +121,8 @@ export function App() {
                 </Route>
                 <Route path="/iam/roles" element={<RoleList />} />
                 <Route path="/iam/memberships" element={<MembershipList />} />
+                <Route path="/iam/users" element={<UserManager />} />
+                <Route path="/iam/permissions" element={<PermissionMatrix />} />
 
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
