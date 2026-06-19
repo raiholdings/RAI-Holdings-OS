@@ -1,5 +1,5 @@
 import { List, useTable, EditButton, Edit, useForm } from "@refinedev/antd";
-import { Table, Tag, Form, Select, Switch } from "antd";
+import { Table, Tag, Form, Select, Switch, Input } from "antd";
 
 /* ── Marketplace listings (schema: marketplace) ──────────────────────────── */
 const mkt = { schema: "marketplace" };
@@ -44,8 +44,20 @@ export function RepoList() {
         <Table.Column dataIndex="license_spdx" title="Giấy phép" render={(v: string) => <Tag color="blue">{v}</Tag>} />
         <Table.Column dataIndex="deploy_status" title="Deploy" render={(v: string) => <Tag color={v === "live" ? "green" : "default"}>{v}</Tag>} />
         <Table.Column dataIndex="owner" title="Chủ sở hữu" />
+        <Table.Column title="" dataIndex="actions" render={(_, r: { id: string }) => <EditButton hideText size="small" recordItemId={r.id} />} />
       </Table>
     </List>
+  );
+}
+export function RepoEdit() {
+  const { formProps, saveButtonProps } = useForm({ resource: "repos", meta: { schema: "code" }, action: "edit" });
+  return (
+    <Edit saveButtonProps={saveButtonProps}>
+      <Form {...formProps} layout="vertical">
+        <Form.Item label="Deploy" name="deploy_status"><Select options={["live", "draft", "building", "error"].map((s) => ({ value: s, label: s }))} /></Form.Item>
+        <Form.Item label="Giấy phép (SPDX)" name="license_spdx"><Input placeholder="MIT / Apache-2.0 / LicenseRef-RAI-Commercial" /></Form.Item>
+      </Form>
+    </Edit>
   );
 }
 
@@ -59,8 +71,20 @@ export function AppList() {
         <Table.Column dataIndex="category" title="Danh mục" render={(v: string) => <Tag>{v}</Tag>} />
         <Table.Column dataIndex="developer" title="Nhà phát triển" />
         <Table.Column dataIndex="community" title="Cộng đồng" render={(v: boolean) => (v ? <Tag color="purple">community</Tag> : <Tag color="gold">RAI</Tag>)} />
+        <Table.Column title="" dataIndex="actions" render={(_, r: { id: string }) => <EditButton hideText size="small" recordItemId={r.id} />} />
       </Table>
     </List>
+  );
+}
+export function AppEdit() {
+  const { formProps, saveButtonProps } = useForm({ resource: "apps", meta: { schema: "apps" }, action: "edit" });
+  return (
+    <Edit saveButtonProps={saveButtonProps}>
+      <Form {...formProps} layout="vertical">
+        <Form.Item label="Danh mục" name="category"><Input /></Form.Item>
+        <Form.Item label="App cộng đồng (tắt = RAI-official)" name="community" valuePropName="checked"><Switch /></Form.Item>
+      </Form>
+    </Edit>
   );
 }
 
@@ -74,7 +98,18 @@ export function McpServerList() {
         <Table.Column dataIndex="namespace" title="Namespace" render={(v: string) => <Tag>{v}</Tag>} />
         <Table.Column dataIndex="status" title="Trạng thái" render={(v: string) => <Tag color={v === "active" ? "green" : "default"}>{v}</Tag>} />
         <Table.Column dataIndex="source" title="Nguồn" render={(v: string) => <Tag color={v === "rai" ? "gold" : "blue"}>{v}</Tag>} />
+        <Table.Column title="" dataIndex="actions" render={(_, r: { id: string }) => <EditButton hideText size="small" recordItemId={r.id} />} />
       </Table>
     </List>
+  );
+}
+export function McpServerEdit() {
+  const { formProps, saveButtonProps } = useForm({ resource: "servers", meta: { schema: "mcp" }, action: "edit" });
+  return (
+    <Edit saveButtonProps={saveButtonProps}>
+      <Form {...formProps} layout="vertical">
+        <Form.Item label="Trạng thái" name="status"><Select options={["active", "deprecated"].map((s) => ({ value: s, label: s }))} /></Form.Item>
+      </Form>
+    </Edit>
   );
 }

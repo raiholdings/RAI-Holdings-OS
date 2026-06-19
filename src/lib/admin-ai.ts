@@ -102,6 +102,22 @@ async function tool_list_mcp_servers(a: { limit?: number }): Promise<ToolResult>
   const lim = Math.min(Math.max(Number(a.limit) || 30, 1), 100);
   return { ok: true, data: await dbSelect("servers", `select=id,name,namespace,status,source&limit=${lim}`, "mcp") };
 }
+// write ops (sensitive) for Code / Apps / MCP
+async function tool_set_repo_deploy(a: { id?: string; deploy_status?: string }): Promise<ToolResult> {
+  if (!a.id || !["live", "draft", "building", "error"].includes(a.deploy_status || "")) return { ok: false, error: "need id + deploy_status(live|draft|building|error)" };
+  await dbUpdate("repos", `id=eq.${encodeURIComponent(a.id)}`, { deploy_status: a.deploy_status, updated_at: new Date().toISOString() }, "code");
+  return { ok: true, data: { id: a.id, deploy_status: a.deploy_status } };
+}
+async function tool_set_app_official(a: { id?: string; community?: boolean }): Promise<ToolResult> {
+  if (!a.id || typeof a.community !== "boolean") return { ok: false, error: "need id + community(boolean)" };
+  await dbUpdate("apps", `id=eq.${encodeURIComponent(a.id)}`, { community: a.community, updated_at: new Date().toISOString() }, "apps");
+  return { ok: true, data: { id: a.id, community: a.community } };
+}
+async function tool_set_mcp_status(a: { id?: string; status?: string }): Promise<ToolResult> {
+  if (!a.id || !["active", "deprecated"].includes(a.status || "")) return { ok: false, error: "need id + status(active|deprecated)" };
+  await dbUpdate("servers", `id=eq.${encodeURIComponent(a.id)}`, { status: a.status, updated_at: new Date().toISOString() }, "mcp");
+  return { ok: true, data: { id: a.id, status: a.status } };
+}
 
 const TOOLS: Record<string, (a: Record<string, unknown>) => Promise<ToolResult>> = {
   get_stats: () => tool_get_stats(),
@@ -115,6 +131,9 @@ const TOOLS: Record<string, (a: Record<string, unknown>) => Promise<ToolResult>>
   list_repos: (a) => tool_list_repos(a),
   list_apps: (a) => tool_list_apps(a),
   list_mcp_servers: (a) => tool_list_mcp_servers(a),
+  set_repo_deploy: (a) => tool_set_repo_deploy(a),
+  set_app_official: (a) => tool_set_app_official(a),
+  set_mcp_status: (a) => tool_set_mcp_status(a),
 };
 
 const SYSTEM = `Bạn là RAI OS Admin Operator — trợ lý quản trị nền tảng RAI Holdings OS, trả lời bằng tiếng Việt.
@@ -131,6 +150,7 @@ Công cụ:
 - recent_usage: {limit?} → usage gần đây.
 - list_listings: {q?, limit?} → sản phẩm Marketplace; set_listing_status: {id, status?, featured?} → duyệt/ẩn/đánh dấu nổi bật.
 - list_repos: {limit?} → repo Code; list_apps: {limit?} → ứng dụng; list_mcp_servers: {limit?} → MCP servers.
+- set_repo_deploy: {id, deploy_status: live|draft|building|error}; set_app_official: {id, community: bool} (false = RAI-official); set_mcp_status: {id, status: active|deprecated}.
 
 Nguyên tắc: thao tác THAY ĐỔI dữ liệu (set_venture_status, adjust_credit) chỉ thực hiện khi người dùng yêu cầu rõ ràng; nếu mơ hồ, hỏi lại trong {"final"}. Không bịa số — luôn lấy từ công cụ. Số tiền hiển thị dạng VND.`;
 
@@ -168,14 +188,17 @@ export type Pending = { tool: string; args: Record<string, unknown>; summary: st
 export type AdminClaimsLite = { sub?: string; user_role?: string };
 
 // Write tools require an explicit 2-step confirmation before executing.
-const SENSITIVE = new Set(["set_venture_status", "adjust_credit", "set_listing_status"]);
-const TARGET_TABLE: Record<string, string> = { set_venture_status: "ventures", adjust_credit: "orgs", set_listing_status: "listings" };
+const SENSITIVE = new Set(["set_venture_status", "adjust_credit", "set_listing_status", "set_repo_deploy", "set_app_official", "set_mcp_status"]);
+const TARGET_TABLE: Record<string, string> = { set_venture_status: "ventures", adjust_credit: "orgs", set_listing_status: "listings", set_repo_deploy: "repos", set_app_official: "apps", set_mcp_status: "servers" };
 
 function summarize(tool: string, a: Record<string, unknown>): string {
   switch (tool) {
     case "adjust_credit": return `Điều chỉnh ví org ${a.orgId}: ${Number(a.amountVnd) > 0 ? "+" : ""}${Number(a.amountVnd).toLocaleString("vi-VN")}₫${a.note ? ` (${a.note})` : ""}`;
     case "set_venture_status": return `Đổi trạng thái venture ${a.id} → ${a.status}`;
     case "set_listing_status": return `Cập nhật listing ${a.id}${a.status ? ` · trạng thái ${a.status}` : ""}${typeof a.featured === "boolean" ? ` · nổi bật ${a.featured}` : ""}`;
+    case "set_repo_deploy": return `Đổi deploy repo ${a.id} → ${a.deploy_status}`;
+    case "set_app_official": return `Đặt app ${a.id} thành ${a.community ? "cộng đồng" : "RAI-official"}`;
+    case "set_mcp_status": return `Đổi trạng thái MCP server ${a.id} → ${a.status}`;
     default: return `${tool}(${JSON.stringify(a)})`;
   }
 }

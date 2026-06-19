@@ -19,7 +19,7 @@ import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
 import { RoleList, MembershipList } from "./pages/iam";
-import { ListingList, ListingEdit, RepoList, AppList, McpServerList } from "./pages/solutions";
+import { ListingList, ListingEdit, RepoList, RepoEdit, AppList, AppEdit, McpServerList, McpServerEdit } from "./pages/solutions";
 
 const iam = { schema: "iam" };
 const ws = { schema: "workspace" };
@@ -51,9 +51,9 @@ export function App() {
 
               { name: "solutions_grp", meta: { label: "Solutions" } },
               { name: "listings", list: "/solutions/marketplace", edit: "/solutions/marketplace/edit/:id", meta: { schema: "marketplace", parent: "solutions_grp", label: "Marketplace" } },
-              { name: "repos", list: "/solutions/code", meta: { schema: "code", parent: "solutions_grp", label: "Code" } },
-              { name: "apps", list: "/solutions/apps", meta: { schema: "apps", parent: "solutions_grp", label: "Apps" } },
-              { name: "servers", list: "/solutions/mcp", meta: { schema: "mcp", parent: "solutions_grp", label: "MCP" } },
+              { name: "repos", list: "/solutions/code", edit: "/solutions/code/edit/:id", meta: { schema: "code", parent: "solutions_grp", label: "Code" } },
+              { name: "apps", list: "/solutions/apps", edit: "/solutions/apps/edit/:id", meta: { schema: "apps", parent: "solutions_grp", label: "Apps" } },
+              { name: "servers", list: "/solutions/mcp", edit: "/solutions/mcp/edit/:id", meta: { schema: "mcp", parent: "solutions_grp", label: "MCP" } },
 
               { name: "iam_grp", meta: { label: "IAM" } },
               { name: "organizations", list: "/iam/organizations", create: "/iam/organizations/create", edit: "/iam/organizations/edit/:id", meta: { ...iam, parent: "iam_grp", label: "Tổ chức (IAM)", canDelete: true } },
@@ -97,9 +97,18 @@ export function App() {
                   <Route index element={<ListingList />} />
                   <Route path="edit/:id" element={<ListingEdit />} />
                 </Route>
-                <Route path="/solutions/code" element={<RepoList />} />
-                <Route path="/solutions/apps" element={<AppList />} />
-                <Route path="/solutions/mcp" element={<McpServerList />} />
+                <Route path="/solutions/code">
+                  <Route index element={<RepoList />} />
+                  <Route path="edit/:id" element={<RepoEdit />} />
+                </Route>
+                <Route path="/solutions/apps">
+                  <Route index element={<AppList />} />
+                  <Route path="edit/:id" element={<AppEdit />} />
+                </Route>
+                <Route path="/solutions/mcp">
+                  <Route index element={<McpServerList />} />
+                  <Route path="edit/:id" element={<McpServerEdit />} />
+                </Route>
 
                 <Route path="/iam/organizations">
                   <Route index element={<OrgList />} />

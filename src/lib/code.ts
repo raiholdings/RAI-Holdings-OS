@@ -100,7 +100,12 @@ const store: Repo[] = [...SEED];
 /* ----------------------------- queries ---------------------------------- */
 export type ListParams = { search?: string; license?: string; language?: string; status?: DeployStatus; owner?: string };
 export function listRepos(params: ListParams, extra: Repo[] = []): Repo[] {
-  let rows = [...store, ...extra];
+  return queryRepos([...store, ...extra], params);
+}
+
+/** Filter + sort any repo set (shared by seed store and DB). */
+export function queryRepos(source: Repo[], params: ListParams): Repo[] {
+  let rows = source;
   if (params.license) rows = rows.filter((r) => r.licenseSpdx === params.license);
   if (params.language) rows = rows.filter((r) => r.language.includes(params.language!));
   if (params.status) rows = rows.filter((r) => r.deployStatus === params.status);
