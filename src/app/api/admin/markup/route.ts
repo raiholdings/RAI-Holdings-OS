@@ -44,10 +44,10 @@ export async function DELETE(req: Request) {
   if (!gate(req)) return NextResponse.json({ error: "forbidden" }, { status: 403, headers: cors });
   const id = new URL(req.url).searchParams.get("id");
   if (!id) return NextResponse.json({ error: "bad_id" }, { status: 400, headers: cors });
-  const { base, token, h } = gw();
+  const { base, token } = gw();
   if (!base || !token) return NextResponse.json({ error: "gateway_not_configured" }, { status: 503, headers: cors });
   try {
-    const res = await fetch(`${base}/admin/markups/${encodeURIComponent(id)}`, { method: "DELETE", headers: h });
+    const res = await fetch(`${base}/admin/markups/${encodeURIComponent(id)}`, { method: "DELETE", headers: { authorization: `Bearer ${token}` } });
     return NextResponse.json(await res.json().catch(() => ({})), { status: res.status, headers: cors });
   } catch { return NextResponse.json({ error: "gateway_unreachable" }, { status: 502, headers: cors }); }
 }
