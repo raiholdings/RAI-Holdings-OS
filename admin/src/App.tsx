@@ -13,6 +13,7 @@ import { i18nProvider } from "./i18nProvider";
 import { raiTheme, RAI_GOLD } from "./theme";
 import { Dashboard } from "./pages/dashboard";
 import { AiConsole } from "./pages/ai";
+import { AuditHistory } from "./pages/ai-history";
 import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
@@ -71,6 +72,7 @@ export function App() {
               >
                 <Route index element={<Dashboard />} />
                 <Route path="/ai" element={<AiConsole />} />
+                <Route path="/ai/history" element={<AuditHistory />} />
 
                 <Route path="/ventures">
                   <Route index element={<VentureList />} />

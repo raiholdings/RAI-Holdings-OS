@@ -6,7 +6,7 @@
 // {"tool","args"} to act or {"final"} to answer. No native function-calling
 // needed, so it works through the gateway's OpenAI-compatible endpoint.
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { dbSelect, dbUpdate, dbRpc } from "@/lib/db";
+import { dbSelect, dbUpdate, dbRpc, dbInsert } from "@/lib/db";
 
 /* ── auth: verify Supabase HS256 JWT + admin role ──────────────────────────── */
 export type AdminClaims = { sub: string; user_role?: string; org_id?: string; exp?: number };
@@ -164,18 +164,56 @@ async function chat(messages: { role: string; content: string }[]): Promise<stri
 }
 
 export type AdminAction = { tool: string; args: Record<string, unknown>; ok: boolean; error?: string };
+export type Pending = { tool: string; args: Record<string, unknown>; summary: string };
+export type AdminClaimsLite = { sub?: string; user_role?: string };
 
-/** Run the agent loop for one admin instruction. Returns the reply + actions taken. */
-export async function runAdminAgent(userMessages: { role: string; content: string }[]): Promise<{ reply: string; actions: AdminAction[] }> {
+// Write tools require an explicit 2-step confirmation before executing.
+const SENSITIVE = new Set(["set_venture_status", "adjust_credit", "set_listing_status"]);
+const TARGET_TABLE: Record<string, string> = { set_venture_status: "ventures", adjust_credit: "orgs", set_listing_status: "listings" };
+
+function summarize(tool: string, a: Record<string, unknown>): string {
+  switch (tool) {
+    case "adjust_credit": return `Điều chỉnh ví org ${a.orgId}: ${Number(a.amountVnd) > 0 ? "+" : ""}${Number(a.amountVnd).toLocaleString("vi-VN")}₫${a.note ? ` (${a.note})` : ""}`;
+    case "set_venture_status": return `Đổi trạng thái venture ${a.id} → ${a.status}`;
+    case "set_listing_status": return `Cập nhật listing ${a.id}${a.status ? ` · trạng thái ${a.status}` : ""}${typeof a.featured === "boolean" ? ` · nổi bật ${a.featured}` : ""}`;
+    default: return `${tool}(${JSON.stringify(a)})`;
+  }
+}
+
+async function writeAudit(actor: AdminClaimsLite, e: { action: string; target_id?: unknown; after?: unknown; prompt?: string }) {
+  try {
+    await dbInsert("events", [{
+      actor_user_id: actor.sub ?? null, actor_role: actor.user_role ?? null,
+      action: e.action, target_table: TARGET_TABLE[e.action] ?? null,
+      target_id: e.target_id != null ? String(e.target_id) : null,
+      after_json: e.after ?? null, source: "ai", prompt: e.prompt ?? null,
+    }], "audit");
+  } catch { /* audit must never block the action */ }
+}
+
+/** Execute a previously-confirmed write tool, then record it in the audit log. */
+export async function executeConfirmed(tool: string, args: Record<string, unknown>, actor: AdminClaimsLite, prompt?: string): Promise<{ ok: boolean; data?: unknown; error?: string }> {
+  const fn = TOOLS[tool];
+  if (!fn) return { ok: false, error: "unknown tool" };
+  const res = await fn(args).catch((e) => ({ ok: false, error: String(e).slice(0, 200) }));
+  if (res.ok) await writeAudit(actor, { action: tool, target_id: args.id ?? args.orgId, after: res.data, prompt });
+  return res;
+}
+
+/** Run the agent loop. Read tools execute inline; the first WRITE tool is returned
+ *  as `pending` (not executed) for 2-step confirmation. */
+export async function runAdminAgent(userMessages: { role: string; content: string }[]): Promise<{ reply: string; actions: AdminAction[]; pending?: Pending }> {
   const msgs = [{ role: "system", content: SYSTEM }, ...userMessages];
   const actions: AdminAction[] = [];
   for (let i = 0; i < 6; i++) {
     const out = await chat(msgs);
     const parsed = parseJson(out);
-    if (!parsed || typeof parsed.final === "string" || (!parsed.tool && parsed.final !== undefined)) {
-      return { reply: parsed?.final ?? out, actions };
-    }
+    if (!parsed || typeof parsed.final === "string") return { reply: parsed?.final ?? out, actions };
     if (!parsed.tool) return { reply: out, actions };
+    if (SENSITIVE.has(parsed.tool)) {
+      const args = parsed.args || {};
+      return { reply: `Tôi dự định thực hiện: ${summarize(parsed.tool, args)}. Bấm Xác nhận để chạy.`, actions, pending: { tool: parsed.tool, args, summary: summarize(parsed.tool, args) } };
+    }
     const fn = TOOLS[parsed.tool];
     const obs: ToolResult = fn ? await fn(parsed.args || {}).catch((e) => ({ ok: false, error: String(e).slice(0, 200) })) : { ok: false, error: "unknown tool" };
     actions.push({ tool: parsed.tool, args: parsed.args || {}, ok: obs.ok, error: obs.error });
