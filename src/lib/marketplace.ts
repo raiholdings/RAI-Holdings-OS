@@ -157,8 +157,13 @@ export function listingPriceBadge(l: Listing): { free: boolean; from?: number; t
 }
 
 export function listListings(params: ListParams, extra: Listing[] = []): ListResult {
+  return queryListings([...store, ...extra], params);
+}
+
+/** Filter + sort + paginate any set of listings (shared by the seed store and the DB). */
+export function queryListings(source: Listing[], params: ListParams): ListResult {
   const limit = params.limit ?? 9;
-  let rows = [...store, ...extra].filter((l) => l.status === "approved");
+  let rows = source.filter((l) => l.status === "approved");
   if (params.type) rows = rows.filter((l) => l.type === params.type);
   if (params.category) rows = rows.filter((l) => l.categories.includes(params.category!));
   if (params.compat) rows = rows.filter((l) => l.compatibility.includes(params.compat!));
