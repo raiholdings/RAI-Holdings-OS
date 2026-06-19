@@ -1,0 +1,3 @@
+app_identifier("vn.raiholdings.os")   # iOS bundle id
+package_name("vn.raiholdings.os")     # Android package
+# Apple login NOT used for upload — we use an App Store Connect API key (env in CI).
