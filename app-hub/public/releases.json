@@ -1,0 +1,58 @@
+{
+  "version": "1.4.0",
+  "released_at": "2026-06-19",
+  "notes_url": "/releases",
+  "platforms": {
+    "windows": {
+      "x64": { "url": "https://downloads.raiholdings.vn/1.4.0/RAI-OS_1.4.0_x64.msi", "size": "8.2 MB" },
+      "arm64": { "url": "https://downloads.raiholdings.vn/1.4.0/RAI-OS_1.4.0_arm64.msi", "size": "8.0 MB" }
+    },
+    "macos": {
+      "universal": { "url": "https://downloads.raiholdings.vn/1.4.0/RAI-OS_1.4.0_universal.dmg", "size": "9.1 MB" }
+    },
+    "linux": {
+      "x64-appimage": { "url": "https://downloads.raiholdings.vn/1.4.0/RAI-OS_1.4.0_amd64.AppImage", "size": "10.3 MB" },
+      "x64-deb": { "url": "https://downloads.raiholdings.vn/1.4.0/rai-os_1.4.0_amd64.deb", "size": "7.9 MB" }
+    },
+    "ios": { "store_url": "https://apps.apple.com/app/id0000000000" },
+    "android": {
+      "store_url": "https://play.google.com/store/apps/details?id=vn.raiholdings.os",
+      "apk_url": "https://downloads.raiholdings.vn/1.4.0/RAI-OS_1.4.0.apk"
+    },
+    "chrome": { "store_url": "https://chromewebstore.google.com/detail/rai-os/placeholder" },
+    "edge": { "store_url": "https://microsoftedge.microsoft.com/addons/detail/placeholder" },
+    "firefox": { "store_url": "https://addons.mozilla.org/vi/firefox/addon/rai-os/" },
+    "safari": { "store_url": "https://apps.apple.com/app/id1111111111" },
+    "pwa": { "install": true }
+  },
+  "changelog": [
+    {
+      "version": "1.4.0",
+      "released_at": "2026-06-19",
+      "notes": [
+        "Venture Builder: pipeline 8 engine chạy AI thật qua RAI LLMs gateway.",
+        "Big Data: tra cứu nhanh hơn, bộ lọc theo vùng và ngành.",
+        "RAI LLMs: bảng điều khiển credit + lịch sử sử dụng.",
+        "Cải thiện hiệu năng PWA và thời gian khởi động desktop."
+      ]
+    },
+    {
+      "version": "1.3.0",
+      "released_at": "2026-05-20",
+      "notes": [
+        "Ra mắt cổng AI hợp nhất RAI LLMs (so sánh nhiều mô hình).",
+        "Đăng nhập một chạm bằng RAI Social.",
+        "Bản desktop Tauri v2 cho Windows/macOS/Linux (beta)."
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "released_at": "2026-04-15",
+      "notes": [
+        "Workspace đa tổ chức + phân quyền vai trò.",
+        "Marketplace, Code, Apps, MCP trong Solutions.",
+        "PWA cài trực tiếp từ trình duyệt."
+      ]
+    }
+  ]
+}
