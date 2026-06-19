@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, useEffect, useState } from "react";
 import { apps, categories, type RaiApp } from "@/lib/apps";
 import { t } from "@/lib/i18n-core";
 
@@ -150,10 +150,20 @@ export function submissionToApp(s: Submission): RaiApp {
   };
 }
 
-/** Built-in apps + approved community submissions. */
+// Catalog from DB (single source; admin-governed) — falls back to the seed.
+let _catalog: RaiApp[] | null = null;
+/** App catalog (DB-first, cached) + approved community submissions. */
 export function useDirectoryApps(): RaiApp[] {
   const subs = useSubmissions();
-  return [...apps, ...subs.filter((s) => s.status === "approved").map(submissionToApp)];
+  const [catalog, setCatalog] = useState<RaiApp[]>(_catalog ?? apps);
+  useEffect(() => {
+    if (_catalog) return;
+    fetch("/api/apps/v0/apps", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => { if (Array.isArray(j.apps) && j.apps.length) { _catalog = j.apps; setCatalog(j.apps); } })
+      .catch(() => {});
+  }, []);
+  return [...catalog, ...subs.filter((s) => s.status === "approved").map(submissionToApp)];
 }
 
 /* ----------------------------- validation (Phase 4) --------------------- */

@@ -4,16 +4,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { getApp } from "@/lib/apps";
-import { useConnection, useSubmissions, submissionToApp, disconnectApp } from "@/lib/apps-store";
+import { useDirectoryApps, useConnection, disconnectApp } from "@/lib/apps-store";
 import { PermissionConsent } from "@/components/apps/PermissionConsent";
 import { useLang, t } from "@/lib/i18n";
 
 export default function AppDetail() {
   const { tr } = useLang();
   const params = useParams<{ id: string }>();
-  const subs = useSubmissions();
-  const app = getApp(params.id) ?? subs.filter((s) => s.status === "approved").map(submissionToApp).find((a) => a.id === params.id);
+  const app = useDirectoryApps().find((a) => a.id === params.id);
   const connection = useConnection(params.id);
   const [consentOpen, setConsentOpen] = useState(false);
 

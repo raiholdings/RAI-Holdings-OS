@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
-import { apps, categories, type AppCategory, type RaiApp } from "@/lib/apps";
+import { categories, type AppCategory, type RaiApp } from "@/lib/apps";
 import { useDirectoryApps, useConnections } from "@/lib/apps-store";
 import { useLang, t } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
@@ -15,7 +15,7 @@ export default function AppsDirectory() {
   const all = useDirectoryApps();
   const connections = useConnections();
 
-  const featured = apps.filter((a) => a.featured);
+  const featured = all.filter((a) => a.featured);
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
     return all.filter((a) => {
