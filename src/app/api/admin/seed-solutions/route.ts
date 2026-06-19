@@ -19,9 +19,9 @@ export async function POST(req: Request) {
 
   const out: Record<string, number> = {};
   try {
-    // marketplace.listings
-    const lr = listListings({}, []) as { data?: unknown[] } | unknown[];
-    const listings = (Array.isArray(lr) ? lr : lr.data ?? []) as Record<string, unknown>[];
+    // marketplace.listings (listListings returns { listings } and filters approved)
+    const lr = listListings({ limit: 200 }, []) as { listings?: unknown[] };
+    const listings = (lr.listings ?? []) as Record<string, unknown>[];
     if (listings.length) {
       await dbUpsert("listings", listings.map((l) => ({
         id: l.id, slug: l.slug, name: l.name, type: l.type, status: l.status,
@@ -50,9 +50,9 @@ export async function POST(req: Request) {
     }
     out.apps = appCatalog.length;
 
-    // mcp.servers
-    const sr = listServers({}) as { data?: unknown[] };
-    const servers = (sr.data ?? []) as Record<string, unknown>[];
+    // mcp.servers (listServers returns { servers })
+    const sr = listServers({ limit: 200 }) as { servers?: unknown[] };
+    const servers = (sr.servers ?? []) as Record<string, unknown>[];
     if (servers.length) {
       await dbUpsert("servers", servers.map((s) => {
         const meta = ((s._meta as Record<string, unknown>)?.["vn.rai.registry/official"] ?? {}) as Record<string, unknown>;

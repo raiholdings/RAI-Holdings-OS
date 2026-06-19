@@ -135,10 +135,19 @@ Công cụ:
 Nguyên tắc: thao tác THAY ĐỔI dữ liệu (set_venture_status, adjust_credit) chỉ thực hiện khi người dùng yêu cầu rõ ràng; nếu mơ hồ, hỏi lại trong {"final"}. Không bịa số — luôn lấy từ công cụ. Số tiền hiển thị dạng VND.`;
 
 function parseJson(text: string): { tool?: string; args?: Record<string, unknown>; final?: string } | null {
-  let t = text.trim().replace(/^```(json)?/i, "").replace(/```$/, "").trim();
-  const i = t.indexOf("{"), j = t.lastIndexOf("}");
-  if (i >= 0 && j > i) t = t.slice(i, j + 1);
-  try { return JSON.parse(t); } catch { return null; }
+  const t = text.replace(/```(json)?/gi, "");
+  // Extract the FIRST balanced {...} object (models sometimes append extra text/objects).
+  const start = t.indexOf("{");
+  if (start < 0) return null;
+  let depth = 0, inStr = false, esc = false;
+  for (let i = start; i < t.length; i++) {
+    const c = t[i];
+    if (inStr) { if (esc) esc = false; else if (c === "\\") esc = true; else if (c === '"') inStr = false; continue; }
+    if (c === '"') inStr = true;
+    else if (c === "{") depth++;
+    else if (c === "}") { depth--; if (depth === 0) { try { return JSON.parse(t.slice(start, i + 1)); } catch { return null; } } }
+  }
+  return null;
 }
 
 async function chat(messages: { role: string; content: string }[]): Promise<string> {
