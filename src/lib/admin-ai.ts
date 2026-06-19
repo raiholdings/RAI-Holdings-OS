@@ -195,7 +195,7 @@ async function writeAudit(actor: AdminClaimsLite, e: { action: string; target_id
 export async function executeConfirmed(tool: string, args: Record<string, unknown>, actor: AdminClaimsLite, prompt?: string): Promise<{ ok: boolean; data?: unknown; error?: string }> {
   const fn = TOOLS[tool];
   if (!fn) return { ok: false, error: "unknown tool" };
-  const res = await fn(args).catch((e) => ({ ok: false, error: String(e).slice(0, 200) }));
+  const res = await fn(args).catch((e): ToolResult => ({ ok: false, error: String(e).slice(0, 200) }));
   if (res.ok) await writeAudit(actor, { action: tool, target_id: args.id ?? args.orgId, after: res.data, prompt });
   return res;
 }

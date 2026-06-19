@@ -7,12 +7,12 @@ export function AuditHistory() {
   const { tableProps } = useTable({ resource: "events", meta, sorters: { initial: [{ field: "created_at", order: "desc" }] } });
   return (
     <List title="Nhật ký kiểm toán (Audit log)">
-      <Table {...tableProps} rowKey="id" expandable={{ expandedRowRender: (r: { prompt?: string; after_json?: unknown }) => (
+      <Table {...tableProps} rowKey="id" expandable={{ expandedRowRender: (record) => { const r = record as { prompt?: string; after_json?: unknown }; return (
         <div style={{ fontSize: 12 }}>
           {r.prompt && <div><b>Prompt:</b> {r.prompt}</div>}
           <pre style={{ background: "#faf9f5", padding: 8, borderRadius: 4, marginTop: 6, overflow: "auto" }}>{JSON.stringify(r.after_json ?? {}, null, 2)}</pre>
         </div>
-      ) }}>
+      ); } }}>
         <Table.Column dataIndex="created_at" title="Thời gian" render={(v: string) => (v ? new Date(v).toLocaleString("vi-VN") : "—")} />
         <Table.Column dataIndex="source" title="Nguồn" render={(v: string) => <Tag color={v === "ai" ? "purple" : "blue"}>{v}</Tag>} />
         <Table.Column dataIndex="action" title="Hành động" render={(v: string) => <Tag color="gold">{v}</Tag>} />
