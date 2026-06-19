@@ -4,7 +4,7 @@ import { dbUpsert } from "@/lib/db";
 import { listListings } from "@/lib/marketplace";
 import { listRepos } from "@/lib/code";
 import { apps as appCatalog } from "@/lib/apps";
-import { listServers, namespaceOf } from "@/lib/mcp-registry";
+import { allEntries, namespaceOf } from "@/lib/mcp-registry";
 
 export const dynamic = "force-dynamic";
 
@@ -50,20 +50,15 @@ export async function POST(req: Request) {
     }
     out.apps = appCatalog.length;
 
-    // mcp.servers (listServers returns { servers })
-    const sr = listServers({ limit: 200 }) as { servers?: unknown[] };
-    const servers = (sr.servers ?? []) as Record<string, unknown>[];
-    if (servers.length) {
-      await dbUpsert("servers", servers.map((s) => {
-        const meta = ((s._meta as Record<string, unknown>)?.["vn.rai.registry/official"] ?? {}) as Record<string, unknown>;
-        const name = String(s.name ?? "");
-        return {
-          id: String(meta.id ?? name), name, namespace: namespaceOf(name),
-          status: meta.status ?? s.status, source: meta.source ?? s.source, data: s,
-        };
-      }), "id", "mcp");
+    // mcp.servers — store the canonical RegistryEntry (data) so the DB is the source of truth
+    const entries = allEntries();
+    if (entries.length) {
+      await dbUpsert("servers", entries.map((e) => ({
+        id: e.id, name: e.name, namespace: namespaceOf(e.name),
+        status: e.status, source: e.source, data: e,
+      })), "id", "mcp");
     }
-    out.servers = servers.length;
+    out.servers = entries.length;
 
     return NextResponse.json({ ok: true, seeded: out }, { headers: cors });
   } catch (e) {

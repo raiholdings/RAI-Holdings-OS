@@ -36,7 +36,10 @@ const FIXTURE: ServerJson[] = [
 
 export type SyncResult = { fetched: number; imported: number; source: "live" | "fixture"; updatedSince?: string };
 
-export async function syncUpstream(updatedSince?: string): Promise<SyncResult> {
+export async function syncUpstream(
+  updatedSince?: string,
+  importer: (servers: ServerJson[], updatedSince?: string) => number | Promise<number> = importFromUpstream,
+): Promise<SyncResult> {
   let items: UpstreamItem[] = [];
   let source: "live" | "fixture" = "live";
   try {
@@ -52,6 +55,6 @@ export async function syncUpstream(updatedSince?: string): Promise<SyncResult> {
     source = "fixture";
   }
   const servers = items.map(normalize).filter((s): s is ServerJson => !!s);
-  const imported = importFromUpstream(servers, updatedSince);
+  const imported = await importer(servers, updatedSince);
   return { fetched: servers.length, imported, source, updatedSince };
 }

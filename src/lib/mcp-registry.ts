@@ -158,9 +158,10 @@ export function toApiServer(e: RegistryEntry, version?: string): ServerJson {
 export type ListParams = { limit?: number; cursor?: string; search?: string; updated_since?: string };
 export type ListResult = { servers: ServerJson[]; metadata: { count: number; next_cursor?: string } };
 
-export function listServers(params: ListParams): ListResult {
+/** Filter + sort + paginate any entry set → API list result (shared by store & DB). */
+export function filterEntries(entries: RegistryEntry[], params: ListParams): ListResult {
   const limit = Math.min(Math.max(params.limit ?? 12, 1), 100);
-  let rows = [...store];
+  let rows = [...entries];
   if (params.search) {
     const q = params.search.toLowerCase();
     rows = rows.filter((e) => {
@@ -180,6 +181,15 @@ export function listServers(params: ListParams): ListResult {
     servers: page.map((e) => toApiServer(e)),
     metadata: { count: rows.length, next_cursor: nextStart < rows.length ? encodeCursor(nextStart) : undefined },
   };
+}
+
+export function listServers(params: ListParams): ListResult {
+  return filterEntries(store, params);
+}
+
+/** All registry entries (for DB seeding). */
+export function allEntries(): RegistryEntry[] {
+  return store;
 }
 
 export function getEntryById(id: string): RegistryEntry | undefined {
