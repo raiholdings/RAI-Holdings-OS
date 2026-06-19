@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>RAI OS</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #0a0b10; color: #e8eaf0; font-family: -apple-system, system-ui, Roboto, sans-serif; }
+      .wrap { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 24px; text-align: center; }
+      .logo { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, #4f8ff7, #7c5cff); display: grid; place-items: center; font-weight: 700; font-size: 30px; color: #fff; }
+      .sp { width: 22px; height: 22px; border: 2px solid #232735; border-top-color: #4f8ff7; border-radius: 50%; animation: s .8s linear infinite; }
+      @keyframes s { to { transform: rotate(360deg); } }
+      .muted { color: #9aa3b7; font-size: 14px; } a { color: #4f8ff7; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="logo">R</div>
+      <div class="sp"></div>
+      <div class="muted">Đang mở RAI OS…</div>
+      <div class="muted" id="fb" style="display:none">Mất kết nối. <a href="#" onclick="go();return false">Thử lại</a></div>
+    </div>
+    <script>
+      // Fallback when no Capacitor server.url (or it's unreachable): open workspace.
+      var T = "https://workspace.raiholdings.vn/?source=mobile";
+      function go() { location.replace(T); }
+      setTimeout(function () { document.getElementById("fb").style.display = "block"; }, 6000);
+      go();
+    </script>
+  </body>
+</html>

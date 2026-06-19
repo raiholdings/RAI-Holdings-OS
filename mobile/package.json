@@ -1,0 +1,25 @@
+{
+  "name": "rai-os-mobile",
+  "private": true,
+  "version": "1.4.0",
+  "description": "RAI OS mobile (Capacitor) — iOS + Android shells of the RAI OS web app",
+  "scripts": {
+    "sync": "cap sync",
+    "add:ios": "cap add ios",
+    "add:android": "cap add android",
+    "open:ios": "cap open ios",
+    "open:android": "cap open android",
+    "assets": "capacitor-assets generate --iconBackgroundColor #0a0b10 --splashBackgroundColor #0a0b10"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/ios": "^7.0.0",
+    "@capacitor/app": "^7.0.0",
+    "@capacitor/splash-screen": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0",
+    "@capacitor/assets": "^3.0.0"
+  }
+}

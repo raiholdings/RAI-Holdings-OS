@@ -1,0 +1,58 @@
+name: Mobile release (Capacitor)
+
+# Manual trigger. Builds Android AAB + iOS IPA from the Capacitor shell and (when
+# store credentials are configured) uploads to Google Play & App Store Connect.
+#
+# Secrets (GitHub → Settings → Secrets) — provided once you share the accounts:
+#   ANDROID_KEYSTORE_BASE64 / ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_ALIAS / ANDROID_KEY_PASSWORD
+#   PLAY_SERVICE_ACCOUNT_JSON           (Google Play publishing)
+#   APP_STORE_CONNECT_API_KEY_ID / APP_STORE_CONNECT_API_ISSUER_ID / APP_STORE_CONNECT_API_KEY (.p8 base64)
+#   IOS_DIST_CERT_P12 / IOS_DIST_CERT_PASSWORD / IOS_PROVISIONING_PROFILE   (iOS signing)
+
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: "Play track / TestFlight (internal|beta|production)"
+        default: "internal"
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "21" }
+      - name: Prepare Capacitor (Android)
+        working-directory: mobile
+        run: |
+          npm install
+          npx cap add android || true
+          npx cap sync android
+      - name: Build AAB
+        working-directory: mobile/android
+        run: ./gradlew bundleRelease
+        # Signing: configure via android keystore secrets above (gradle signingConfigs).
+      - uses: actions/upload-artifact@v4
+        with: { name: rai-os-android-aab, path: mobile/android/app/build/outputs/bundle/release/*.aab }
+      # - name: Upload to Play (fastlane supply) — enable once PLAY_SERVICE_ACCOUNT_JSON is set
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Prepare Capacitor (iOS)
+        working-directory: mobile
+        run: |
+          npm install
+          npx cap add ios || true
+          npx cap sync ios
+      # - name: Import signing cert + provisioning profile (from secrets)
+      # - name: Build IPA (fastlane gym)  — needs Apple Developer signing
+      # - name: Upload to TestFlight/App Store (fastlane pilot/deliver)
+      - name: Note
+        run: echo "iOS build/upload requires Apple Developer signing — wire secrets then enable fastlane steps."
