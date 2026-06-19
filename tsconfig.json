@@ -40,6 +40,10 @@
     "legacy",
     "admin",
     "infra",
-    "gateway"
+    "gateway",
+    "app-hub",
+    "extension",
+    "desktop",
+    "mobile"
   ]
 }
