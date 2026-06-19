@@ -12,6 +12,7 @@ import { accessControlProvider } from "./accessControlProvider";
 import { i18nProvider } from "./i18nProvider";
 import { raiTheme, RAI_GOLD } from "./theme";
 import { Dashboard } from "./pages/dashboard";
+import { AiConsole } from "./pages/ai";
 import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
@@ -35,6 +36,7 @@ export function App() {
             notificationProvider={useNotificationProvider}
             resources={[
               { name: "dashboard", list: "/", meta: { label: "Tổng quan" } },
+              { name: "ai", list: "/ai", meta: { label: "AI điều khiển" } },
 
               { name: "workspace_grp", meta: { label: "Workspace" } },
               { name: "ventures", list: "/ventures", edit: "/ventures/edit/:id", show: "/ventures/show/:id", meta: { ...ws, parent: "workspace_grp", label: "Doanh nghiệp", canDelete: true } },
@@ -61,6 +63,7 @@ export function App() {
                 }
               >
                 <Route index element={<Dashboard />} />
+                <Route path="/ai" element={<AiConsole />} />
 
                 <Route path="/ventures">
                   <Route index element={<VentureList />} />
