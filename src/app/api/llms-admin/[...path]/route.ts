@@ -1,15 +1,19 @@
 import { NextResponse } from "next/server";
+import { isAdminAuthed } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
 // Server-side proxy to the RAI LLMs gateway /admin/* API. Keeps the gateway
-// ADMIN_TOKEN on the server — never exposed to the browser. Gated upstream by
-// the /admin password layer (this route lives under the admin area's trust).
+// ADMIN_TOKEN on the server — never exposed to the browser. Gated by the /admin
+// password cookie (rai_admin) so the proxy itself can't be called unauthenticated.
 // Read env inside the handler — not available at module load on Cloudflare Workers.
 const baseOf = () => (process.env.RAI_LLMS_BASE || process.env.NEXT_PUBLIC_RAI_LLMS_BASE || "").replace(/\/$/, "");
 const adminTokenOf = () => process.env.RAI_LLMS_ADMIN_TOKEN || "";
 
 async function forward(method: string, path: string[], req: Request): Promise<Response> {
+  if (!(await isAdminAuthed())) {
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   const BASE = baseOf();
   const ADMIN_TOKEN = adminTokenOf();
   if (!BASE || !ADMIN_TOKEN) {
