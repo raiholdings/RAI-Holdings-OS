@@ -15,6 +15,7 @@ import { Dashboard } from "./pages/dashboard";
 import { AiConsole } from "./pages/ai";
 import { AuditHistory } from "./pages/ai-history";
 import { Billing } from "./pages/billing";
+import { Ops } from "./pages/ops";
 import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
@@ -43,6 +44,7 @@ export function App() {
               { name: "dashboard", list: "/", meta: { label: "Tổng quan" } },
               { name: "ai", list: "/ai", meta: { label: "AI điều khiển" } },
               { name: "billing", list: "/billing", meta: { label: "Kinh tế nền tảng" } },
+              { name: "ops", list: "/ops", meta: { label: "Vận hành" } },
 
               { name: "workspace_grp", meta: { label: "Workspace" } },
               { name: "ventures", list: "/ventures", edit: "/ventures/edit/:id", show: "/ventures/show/:id", meta: { ...ws, parent: "workspace_grp", label: "Doanh nghiệp", canDelete: true } },
@@ -80,6 +82,7 @@ export function App() {
                 <Route path="/ai" element={<AiConsole />} />
                 <Route path="/ai/history" element={<AuditHistory />} />
                 <Route path="/billing" element={<Billing />} />
+                <Route path="/ops" element={<Ops />} />
 
                 <Route path="/ventures">
                   <Route index element={<VentureList />} />
