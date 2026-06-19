@@ -1,0 +1,9 @@
+src-tauri/target
+src-tauri/gen
+src-tauri/Cargo.lock
+# generated icons (created by `tauri icon`); keep only the source icon.png
+src-tauri/icons/*.png
+src-tauri/icons/*.ico
+src-tauri/icons/*.icns
+!src-tauri/icons/icon.png
+.DS_Store

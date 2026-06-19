@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RAI OS</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #0a0b10; color: #e8eaf0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+      .wrap { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+      .logo { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #4f8ff7, #7c5cff); display: grid; place-items: center; font-weight: 700; font-size: 26px; color: #fff; }
+      .sp { width: 22px; height: 22px; border: 2px solid #232735; border-top-color: #4f8ff7; border-radius: 50%; animation: s 0.8s linear infinite; }
+      @keyframes s { to { transform: rotate(360deg); } }
+      a { color: #4f8ff7; }
+      .muted { color: #9aa3b7; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="logo">R</div>
+      <div class="sp"></div>
+      <div class="muted">Đang mở RAI OS…</div>
+      <div class="muted" id="fallback" style="display:none">Không kết nối được. <a href="#" onclick="go();return false">Thử lại</a></div>
+    </div>
+    <script>
+      // Thin shell: open the live RAI OS workspace web app.
+      var TARGET = "https://workspace.raiholdings.vn/?source=desktop";
+      function go() { window.location.replace(TARGET); }
+      setTimeout(function () { document.getElementById("fallback").style.display = "block"; }, 6000);
+      go();
+    </script>
+  </body>
+</html>
