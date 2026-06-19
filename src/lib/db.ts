@@ -24,8 +24,9 @@ export function dbEnabled(): boolean {
 
 type Row = Record<string, unknown>;
 
-async function rest(path: string, init: RequestInit & { write?: boolean } = {}): Promise<Response> {
-  const { url, key, schema } = cfg();
+async function rest(path: string, init: RequestInit & { write?: boolean; schema?: string } = {}): Promise<Response> {
+  const { url, key, schema: defSchema } = cfg();
+  const schema = init.schema || defSchema;
   if (!url || !key) throw new Error("db_disabled");
   const headers: Record<string, string> = {
     apikey: key,
@@ -44,16 +45,17 @@ async function rest(path: string, init: RequestInit & { write?: boolean } = {}):
 }
 
 /** SELECT — `query` is a raw PostgREST query string, e.g. "org_id=eq.x&order=created_at.desc". */
-export async function dbSelect<T = Row>(table: string, query = ""): Promise<T[]> {
-  const res = await rest(`${table}${query ? `?${query}` : ""}`);
+export async function dbSelect<T = Row>(table: string, query = "", schema?: string): Promise<T[]> {
+  const res = await rest(`${table}${query ? `?${query}` : ""}`, { schema });
   return (await res.json()) as T[];
 }
 
 /** INSERT one or more rows; returns the inserted representation. */
-export async function dbInsert<T = Row>(table: string, rows: Row | Row[]): Promise<T[]> {
+export async function dbInsert<T = Row>(table: string, rows: Row | Row[], schema?: string): Promise<T[]> {
   const res = await rest(table, {
     method: "POST",
     write: true,
+    schema,
     headers: { Prefer: "return=representation" },
     body: JSON.stringify(rows),
   });
@@ -61,10 +63,11 @@ export async function dbInsert<T = Row>(table: string, rows: Row | Row[]): Promi
 }
 
 /** UPDATE rows matching `query`; returns the updated representation. */
-export async function dbUpdate<T = Row>(table: string, query: string, patch: Row): Promise<T[]> {
+export async function dbUpdate<T = Row>(table: string, query: string, patch: Row, schema?: string): Promise<T[]> {
   const res = await rest(`${table}?${query}`, {
     method: "PATCH",
     write: true,
+    schema,
     headers: { Prefer: "return=representation" },
     body: JSON.stringify(patch),
   });
@@ -72,10 +75,11 @@ export async function dbUpdate<T = Row>(table: string, query: string, patch: Row
 }
 
 /** UPSERT (insert on conflict do update). `onConflict` = comma-separated key cols. */
-export async function dbUpsert<T = Row>(table: string, rows: Row | Row[], onConflict: string): Promise<T[]> {
+export async function dbUpsert<T = Row>(table: string, rows: Row | Row[], onConflict: string, schema?: string): Promise<T[]> {
   const res = await rest(`${table}?on_conflict=${onConflict}`, {
     method: "POST",
     write: true,
+    schema,
     headers: { Prefer: "resolution=merge-duplicates,return=representation" },
     body: JSON.stringify(rows),
   });
@@ -83,12 +87,12 @@ export async function dbUpsert<T = Row>(table: string, rows: Row | Row[], onConf
 }
 
 /** DELETE rows matching `query`. */
-export async function dbDelete(table: string, query: string): Promise<void> {
-  await rest(`${table}?${query}`, { method: "DELETE", write: true });
+export async function dbDelete(table: string, query: string, schema?: string): Promise<void> {
+  await rest(`${table}?${query}`, { method: "DELETE", write: true, schema });
 }
 
 /** Call a Postgres function via PostgREST RPC; returns its result. */
-export async function dbRpc<T = unknown>(fn: string, args: Row): Promise<T> {
-  const res = await rest(`rpc/${fn}`, { method: "POST", write: true, body: JSON.stringify(args) });
+export async function dbRpc<T = unknown>(fn: string, args: Row, schema?: string): Promise<T> {
+  const res = await rest(`rpc/${fn}`, { method: "POST", write: true, schema, body: JSON.stringify(args) });
   return (await res.json()) as T;
 }

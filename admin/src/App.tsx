@@ -17,6 +17,7 @@ import { VentureList, VentureEdit, VentureShow } from "./pages/ventures";
 import { WsOrgList, WsOrgEdit, WsMemberList, TxnList, UsageList } from "./pages/workspace";
 import { OrgList, OrgCreate, OrgEdit } from "./pages/organizations";
 import { RoleList, MembershipList } from "./pages/iam";
+import { ListingList, ListingEdit, RepoList, AppList, McpServerList } from "./pages/solutions";
 
 const iam = { schema: "iam" };
 const ws = { schema: "workspace" };
@@ -44,6 +45,12 @@ export function App() {
               { name: "org_members", list: "/workspace/members", meta: { ...ws, parent: "workspace_grp", label: "Thành viên" } },
               { name: "wallet_txns", list: "/workspace/wallet", meta: { ...ws, parent: "workspace_grp", label: "Giao dịch ví" } },
               { name: "usage_events", list: "/workspace/usage", meta: { ...ws, parent: "workspace_grp", label: "Sử dụng" } },
+
+              { name: "solutions_grp", meta: { label: "Solutions" } },
+              { name: "listings", list: "/solutions/marketplace", edit: "/solutions/marketplace/edit/:id", meta: { schema: "marketplace", parent: "solutions_grp", label: "Marketplace" } },
+              { name: "repos", list: "/solutions/code", meta: { schema: "code", parent: "solutions_grp", label: "Code" } },
+              { name: "apps", list: "/solutions/apps", meta: { schema: "apps", parent: "solutions_grp", label: "Apps" } },
+              { name: "servers", list: "/solutions/mcp", meta: { schema: "mcp", parent: "solutions_grp", label: "MCP" } },
 
               { name: "iam_grp", meta: { label: "IAM" } },
               { name: "organizations", list: "/iam/organizations", create: "/iam/organizations/create", edit: "/iam/organizations/edit/:id", meta: { ...iam, parent: "iam_grp", label: "Tổ chức (IAM)", canDelete: true } },
@@ -80,6 +87,14 @@ export function App() {
                   <Route path="wallet" element={<TxnList />} />
                   <Route path="usage" element={<UsageList />} />
                 </Route>
+
+                <Route path="/solutions/marketplace">
+                  <Route index element={<ListingList />} />
+                  <Route path="edit/:id" element={<ListingEdit />} />
+                </Route>
+                <Route path="/solutions/code" element={<RepoList />} />
+                <Route path="/solutions/apps" element={<AppList />} />
+                <Route path="/solutions/mcp" element={<McpServerList />} />
 
                 <Route path="/iam/organizations">
                   <Route index element={<OrgList />} />

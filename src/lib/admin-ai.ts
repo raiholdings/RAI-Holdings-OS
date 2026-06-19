@@ -75,6 +75,34 @@ async function tool_recent_usage(a: { limit?: number }): Promise<ToolResult> {
   return { ok: true, data: await dbSelect("usage_events", `select=created_at,product,model,units,cost_vnd,org_id&order=created_at.desc&limit=${lim}`) };
 }
 
+/* ── Solutions (marketplace / code / apps / mcp) ───────────────────────────── */
+async function tool_list_listings(a: { q?: string; limit?: number }): Promise<ToolResult> {
+  const lim = Math.min(Math.max(Number(a.limit) || 30, 1), 100);
+  let q = `select=id,slug,name,type,status,featured,install_count,rating&order=install_count.desc&limit=${lim}`;
+  if (a.q) q += `&name=ilike.*${encodeURIComponent(a.q)}*`;
+  return { ok: true, data: await dbSelect("listings", q, "marketplace") };
+}
+async function tool_set_listing_status(a: { id?: string; status?: string; featured?: boolean }): Promise<ToolResult> {
+  if (!a.id) return { ok: false, error: "need id" };
+  const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  if (a.status) patch.status = a.status;
+  if (typeof a.featured === "boolean") patch.featured = a.featured;
+  await dbUpdate("listings", `id=eq.${encodeURIComponent(a.id)}`, patch, "marketplace");
+  return { ok: true, data: { id: a.id, ...patch } };
+}
+async function tool_list_repos(a: { limit?: number }): Promise<ToolResult> {
+  const lim = Math.min(Math.max(Number(a.limit) || 30, 1), 100);
+  return { ok: true, data: await dbSelect("repos", `select=id,owner,name,license_spdx,deploy_status&limit=${lim}`, "code") };
+}
+async function tool_list_apps(a: { limit?: number }): Promise<ToolResult> {
+  const lim = Math.min(Math.max(Number(a.limit) || 30, 1), 100);
+  return { ok: true, data: await dbSelect("apps", `select=id,name,category,developer,community&limit=${lim}`, "apps") };
+}
+async function tool_list_mcp_servers(a: { limit?: number }): Promise<ToolResult> {
+  const lim = Math.min(Math.max(Number(a.limit) || 30, 1), 100);
+  return { ok: true, data: await dbSelect("servers", `select=id,name,namespace,status,source&limit=${lim}`, "mcp") };
+}
+
 const TOOLS: Record<string, (a: Record<string, unknown>) => Promise<ToolResult>> = {
   get_stats: () => tool_get_stats(),
   search_ventures: (a) => tool_search_ventures(a),
@@ -82,6 +110,11 @@ const TOOLS: Record<string, (a: Record<string, unknown>) => Promise<ToolResult>>
   list_orgs: () => tool_list_orgs(),
   adjust_credit: (a) => tool_adjust_credit(a),
   recent_usage: (a) => tool_recent_usage(a),
+  list_listings: (a) => tool_list_listings(a),
+  set_listing_status: (a) => tool_set_listing_status(a),
+  list_repos: (a) => tool_list_repos(a),
+  list_apps: (a) => tool_list_apps(a),
+  list_mcp_servers: (a) => tool_list_mcp_servers(a),
 };
 
 const SYSTEM = `Bạn là RAI OS Admin Operator — trợ lý quản trị nền tảng RAI Holdings OS, trả lời bằng tiếng Việt.
@@ -96,6 +129,8 @@ Công cụ:
 - list_orgs: {} → danh sách tổ chức + số dư ví.
 - adjust_credit: {orgId, amountVnd, note?} → cộng/trừ credit (amount âm để trừ). Chỉ làm khi quản trị viên YÊU CẦU RÕ.
 - recent_usage: {limit?} → usage gần đây.
+- list_listings: {q?, limit?} → sản phẩm Marketplace; set_listing_status: {id, status?, featured?} → duyệt/ẩn/đánh dấu nổi bật.
+- list_repos: {limit?} → repo Code; list_apps: {limit?} → ứng dụng; list_mcp_servers: {limit?} → MCP servers.
 
 Nguyên tắc: thao tác THAY ĐỔI dữ liệu (set_venture_status, adjust_credit) chỉ thực hiện khi người dùng yêu cầu rõ ràng; nếu mơ hồ, hỏi lại trong {"final"}. Không bịa số — luôn lấy từ công cụ. Số tiền hiển thị dạng VND.`;
 
