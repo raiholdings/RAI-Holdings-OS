@@ -1,6 +1,10 @@
+import { useCallback, useEffect, useState } from "react";
 import { useList } from "@refinedev/core";
-import { Card, Col, Row, Statistic, Table, Tag, Typography, Alert } from "antd";
+import { Card, Col, Row, Statistic, Table, Tag, Typography, Alert, Select, InputNumber, Input, Button, Space, Popconfirm, App as AntdApp } from "antd";
 import { ResponsiveContainer, ComposedChart, Bar, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid, PieChart, Pie, Cell } from "recharts";
+import { supabaseClient } from "../supabaseClient";
+
+const MARKUP_API = "https://raiholdings.vn/api/admin/markup";
 
 const ana = { schema: "analytics" };
 const poll = { queryOptions: { refetchInterval: 30000 } };
@@ -67,7 +71,68 @@ export function Billing() {
         </Table>
       </Card>
 
-      <Alert type="info" showIcon style={{ marginTop: 16 }} message="Markup theo model/provider (giá bán = giá gốc × (1+markup)) được cấu hình trong RAI LLMs gateway — sẽ tích hợp vào trang này ở bước sau." />
+      <MarkupCard />
     </div>
+  );
+}
+
+type Markup = { id: string; scope: string; target: string | null; percent: number };
+
+function MarkupCard() {
+  const { message } = AntdApp.useApp();
+  const [rows, setRows] = useState<Markup[]>([]);
+  const [state, setState] = useState<"loading" | "ok" | "off" | "err">("loading");
+  const [scope, setScope] = useState("global");
+  const [target, setTarget] = useState("");
+  const [percent, setPercent] = useState<number>(20);
+  const [busy, setBusy] = useState(false);
+
+  const token = useCallback(async () => (await supabaseClient.auth.getSession()).data.session?.access_token, []);
+  const load = useCallback(async () => {
+    try {
+      const res = await fetch(MARKUP_API, { headers: { authorization: `Bearer ${await token()}` } });
+      if (res.status === 503) { setState("off"); return; }
+      const j = await res.json();
+      setRows(j.data ?? []);
+      setState("ok");
+    } catch { setState("err"); }
+  }, [token]);
+  useEffect(() => { load(); }, [load]);
+
+  async function add() {
+    setBusy(true);
+    try {
+      const res = await fetch(MARKUP_API, { method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${await token()}` }, body: JSON.stringify({ scope, target: scope === "global" ? null : target.trim(), percent }) });
+      if (!res.ok) throw new Error();
+      message.success("Đã lưu markup"); setTarget(""); load();
+    } catch { message.error("Không lưu được markup"); } finally { setBusy(false); }
+  }
+  async function del(id: string) {
+    try { await fetch(`${MARKUP_API}?id=${encodeURIComponent(id)}`, { method: "DELETE", headers: { authorization: `Bearer ${await token()}` } }); load(); }
+    catch { message.error("Không xoá được"); }
+  }
+
+  return (
+    <Card title="Markup (giá bán = giá gốc × (1 + markup%))" size="small" style={{ marginTop: 16 }}>
+      <Typography.Paragraph type="secondary">Ưu tiên: model → provider → global → mặc định gateway (20%). Cấu hình trong RAI LLMs gateway.</Typography.Paragraph>
+      {state === "off" && <Alert type="warning" showIcon message="Chưa cấu hình gateway admin (RAI_LLMS_ADMIN_TOKEN)." />}
+      {state === "err" && <Alert type="error" showIcon message="Không kết nối được gateway." />}
+      {state === "ok" && (
+        <>
+          <Table dataSource={rows} rowKey="id" size="small" pagination={false} style={{ marginBottom: 12 }}>
+            <Table.Column dataIndex="scope" title="Phạm vi" render={(v: string) => <Tag color={v === "global" ? "gold" : v === "provider" ? "blue" : "purple"}>{v}</Tag>} />
+            <Table.Column dataIndex="target" title="Đối tượng" render={(v: string) => v || "—"} />
+            <Table.Column dataIndex="percent" title="Markup" render={(v: number) => `${v}%`} />
+            <Table.Column title="" render={(_, r: Markup) => <Popconfirm title="Xoá markup này?" onConfirm={() => del(r.id)}><Button size="small" danger>Xoá</Button></Popconfirm>} />
+          </Table>
+          <Space wrap>
+            <Select value={scope} onChange={setScope} style={{ width: 130 }} options={[{ value: "global", label: "global" }, { value: "provider", label: "provider" }, { value: "model", label: "model" }]} />
+            <Input placeholder={scope === "provider" ? "anthropic / openai…" : scope === "model" ? "anthropic/claude-opus-4.8" : "(không cần)"} value={target} onChange={(e) => setTarget(e.target.value)} disabled={scope === "global"} style={{ width: 240 }} />
+            <InputNumber value={percent} onChange={(v) => setPercent(Number(v) || 0)} min={0} max={500} addonAfter="%" />
+            <Button type="primary" loading={busy} onClick={add}>Lưu</Button>
+          </Space>
+        </>
+      )}
+    </Card>
   );
 }
